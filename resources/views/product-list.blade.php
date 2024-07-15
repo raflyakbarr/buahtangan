@@ -1,48 +1,78 @@
 @extends('layouts.guestnav')
-
+<style>
+.list-group-item a {
+    color: inherit;
+    text-decoration: none;
+}
+</style>
 @section('content')
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Semua Produk</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
-                </div>
-            </div>
-        </header>
-        <!-- Section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    @foreach($products as $product)
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="{{ $product->image }}" alt="{{ $product->name }}" />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">{{ $product->name }}</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small mb-2">
-                                        <p>
-                                            {{ $product->description }}
-                                        </p>
-                                    </div>
-                                    <!-- Product price-->
-                                    <span class="text-muted">{{ $product->price }}</span>
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
+    <!-- Page content-->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-3">
+                <!-- Category list -->
+                <div class="card mb-4 border-0 shadow">
+                    <div class="card-header">Kategori Produk</div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush rounded">
+                            @foreach ($categories as $category)
+                                <li class="list-group-item list-group-item-light {{ request('category') == $category ? 'active' : '' }}">
+                                    <a href="{{ route('product.list', ['category' => $category]) }}" class="text-decoration-none {{ request('category') == $category ? 'text-white' : '' }}">
+                                        {{ $category }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
-                    @endforeach
                 </div>
             </div>
-        </section>
+            <div class="col-lg-8">
+                <section>
+                    <header class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <form action="{{ route('product-list.search') }}" method="GET" class="input-group">
+                                <input type="text" class="form-control" name="keyword" placeholder="Cari produk" value="{{ request('keyword') }}">
+                                <button type="submit" class="btn btn-dark">Cari</button>
+                            </form>
+                        </div>
+                    </header>
+                    @if(request()->has('keyword'))
+                        <div class="mb-3 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Hasil pencarian untuk: {{ request('keyword') }}</h5>
+                            <a href="{{ route('product.list') }}" class="text-dark btn-secondary ms-3 mb-3 bi bi-chevron-double-left">Kembali</a>
+                        </div>
+                    @endif
+                    @if($isCategoryView)
+                        <div class="mb-3 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Kategori : {{ $selectedCategory }}</h5>
+                            <a href="{{ route('product.list') }}" class="text-dark btn-secondary ms-3 mb-3 bi bi-chevron-double-left">Kembali</a>
+                        </div>
+                    @endif
+                        
+                    @if($products->isEmpty())
+                        <div class="alert alert-light mt-3">
+                            Tidak ada produk yang ditemukan.
+                        </div>
+                    @else
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-4">
+                            @foreach ($products as $product)
+                                <div class="col">
+                                    <div class="card h-100 shadow">
+                                        @if($product->image)
+                                            <img src="{{ asset($product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+                                        @endif
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $product->name }}</h5>
+                                            <p class="card-text">{{ $product->description }}</p>
+                                            <p class="card-text">Harga: Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </section>
+            </div>
+        </div>
+    </div>
 @endsection

@@ -94,10 +94,48 @@ class ProductController extends Controller
         return Excel::download(new ProductsExport, 'Produk.xlsx');
     }
 
-    public function indexForGuests()
+    public function indexForGuests(Request $request)
     {
-        $products = Product::all(); // Ambil semua data produk dari database
-        return view('product-list', compact('products'));
+        $category = $request->input('category');
+        
+        $productsQuery = Product::query();
+        
+        if ($category) {
+            $productsQuery->where('kategori', $category);
+        }
+        
+        $products = $productsQuery->get();
+        
+        // Get unique categories
+        $categories = Product::distinct()->pluck('kategori');
+    
+        return view('product-list', [
+            'products' => $products,
+            'categories' => $categories,
+            'selectedCategory' => $category,
+            'isCategoryView' => $category !== null
+        ]);
     }
-
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        
+        $productsQuery = Product::query();
+        
+        if ($keyword) {
+            $productsQuery->where('name', 'LIKE', "%{$keyword}%")
+                        ->orWhere('description', 'LIKE', "%{$keyword}%");
+        }
+        
+        $products = $productsQuery->get();
+        
+        // Get unique categories
+        $categories = Product::distinct()->pluck('kategori');
+        
+        return view('product-list', [
+            'products' => $products,
+            'categories' => $categories,
+            'isCategoryView' => false
+        ]);
+    }
 }

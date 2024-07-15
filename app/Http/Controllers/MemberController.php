@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\RiwayatPoint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\File;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
     public function index()
     {
         $members = Member::all();
+        confirmDelete();
         return view('members.index', compact('members'));
     }
 
@@ -26,9 +31,6 @@ class MemberController extends Controller
         $request->validate([
             'name' => 'required',
             'telp' => [
-                'required',
-                'regex:/^([0-9\s\-\+\(\)]*)$/',
-                'min:10',
                 'unique:members',
             ],
         ]);
@@ -38,6 +40,7 @@ class MemberController extends Controller
         $member->telp = $request->telp;
         $member->member_number = random_int(100000, 999999);
         $member->points = $request->points;
+        $member->user_id = Auth::id();
 
         // Save the member first to get the ID
         $member->save();
@@ -56,14 +59,27 @@ class MemberController extends Controller
         $member->qr_code = $qrCodePath;
         $member->save();
 
-        return redirect()->route('members.index')
-            ->with('success', 'Member created successfully.');
+        if ($request->points > 0) {
+            RiwayatPoint::create([
+                'member_number' => $member->member_number,
+                'user_id' => Auth::id(),
+                'points' => $request->points,
+            ]);
+        }
+
+        Alert::success('Added Successfully', 'Member Added Successfully.');
+        return redirect()->route('members.index');
     }
 
     public function show($member_number)
     {
         $member = Member::where('member_number', $member_number)->firstOrFail();
-        return view('members.show', compact('member'));
+        $riwayatPoints = RiwayatPoint::where('member_number', $member->member_number)
+            ->with('admin')
+            ->orderByDesc('created_at')
+            ->paginate(10);
+
+        return view('members.show', compact('member', 'riwayatPoints'));
     }
 
     public function edit($member_number)
@@ -78,36 +94,91 @@ class MemberController extends Controller
             'name' => 'required',
             'telp' => [
                 'required',
-                'regex:/^([0-9\s\-\+\(\)]*)$/',
-                'min:10',
-                'unique:members,telp,' . $member_number . ',member_number',
             ],
         ]);
 
         $member = Member::where('member_number', $member_number)->firstOrFail();
         $member->name = $request->name;
         $member->telp = $request->telp;
-        $member->points = $request->points; // Pastikan points diupdate sesuai kebutuhan
 
         // Simpan perubahan
         $member->save();
-
-        return redirect()->route('members.index')
-            ->with('success', 'Member updated successfully.');
+        Alert::success('Added Successfully', 'Member Berhasil Di Edit.');
+        return redirect()->route('members.index');
     }
 
     public function destroy($member_number)
     {
         $member = Member::where('member_number', $member_number)->firstOrFail();
         $member->delete();
-
-        return redirect()->route('members.index')
-            ->with('success', 'Member deleted successfully.');
+        Alert::success('Deleted Successfully', 'Member Data Deleted Successfully.');
+        return redirect()->route('members.index');
     }
 
     public function indexForGuests($member_number)
     {
         $member = Member::where('member_number', $member_number)->firstOrFail();
         return view('member-list', compact('member'));
+    }
+
+    public function addPoints(Request $request)
+    {
+        $request->validate([
+            'member_number' => 'required|exists:members,member_number',
+            'points' => 'required|integer|min:1'
+        ]);
+
+        $member = Member::where('member_number', $request->member_number)->firstOrFail();
+        $member->points += $request->points;
+        $member->save();
+
+        RiwayatPoint::create([
+            'member_number' => $member->member_number,
+            'user_id' => Auth::id(),
+            'points' => $request->points,
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+    public function deleteRiwayatPoint(Request $request, $member_number)
+    {
+        $riwayatPoint = RiwayatPoint::findOrFail($request->id);
+        
+        if ($riwayatPoint->member_number != $member_number) {
+            return redirect()->back()->with('error', 'Unauthorized action.');
+        }
+    
+        // Ambil jumlah points yang akan dihapus
+        $pointsToRemove = $riwayatPoint->points;
+    
+        // Cari member
+        $member = Member::where('member_number', $member_number)->firstOrFail();
+    
+        // Pastikan member memiliki cukup points
+        if ($member->points < $pointsToRemove) {
+            return redirect()->back()->with('error', 'Tidak dapat menghapus riwayat karena points member tidak mencukupi.');
+        }
+    
+        // Kurangi points member
+        $member->points -= $pointsToRemove;
+        $member->save();
+    
+        // Hapus riwayat point
+        $riwayatPoint->delete();
+        
+        return redirect()->route('members.show', $member_number)->with('success', 'Riwayat point berhasil dihapus dan points member diperbarui.');
+    }
+    public function resetPoints($member_number)
+    {
+        $member = Member::where('member_number', $member_number)->firstOrFail();
+
+        // Reset points to 0
+        $member->points = 0;
+        $member->save();
+
+        // Delete all point history for this member
+        RiwayatPoint::where('member_number', $member_number)->delete();
+        Alert::success('Reset Sukses', 'Memper Points Berhasil Di Edit.');
+        return redirect()->route('members.index', $member_number);
     }
 }

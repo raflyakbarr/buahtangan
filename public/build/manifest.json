@@ -24,12 +24,12 @@
     "src": "node_modules/summernote/dist/font/summernote.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-o3P81I1z.js",
+    "file": "assets/app-NLstwK_N.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-CBtCtS8Z.css"
+      "assets/app-DZcyDv0q.css"
     ],
     "assets": [
       "assets/summernote-DScJrmJ1.eot",

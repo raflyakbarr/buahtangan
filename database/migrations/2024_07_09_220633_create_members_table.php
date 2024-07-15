@@ -20,7 +20,10 @@ class CreateMembersTable extends Migration
             $table->unsignedBigInteger('member_number')->unique();
             $table->integer('points')->default(0);
             $table->string('qr_code')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

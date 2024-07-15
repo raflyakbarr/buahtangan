@@ -12,10 +12,7 @@
                         <!-- Post title-->
                         <h1 class="fw-bolder mb-1">{{ $article->title }}</h1>
                         <!-- Post meta content-->
-                        <div class="text-muted fst-italic mb-2">Di post pada  {{ $article->created_at }}, oleh {{ $article->user->name }}</div>
-                        <!-- Post categories-->
-                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                        <div class="text-muted fst-italic mb-2">Di post pada  {{ $article->created_at->format('M d Y') }}, oleh {{ $article->user->name }}</div>
                     </header>
                     <!-- Preview image figure-->
                     @if ($article->image)
@@ -23,105 +20,83 @@
                     @endif
                     <!-- Post content-->
                     <section class="mb-5">
-                        <div class="fs-5 mb-4" >
+                        <div class="fs-5 mb-4 ql-editor" >
                             {!! $article->content !!}
                         </div>
                     </section>
                 </article>
-                <!-- Comments section-->
-                <section class="mb-5">
-                    <div class="card bg-light">
-                        <div class="card-body">
-                            <!-- Comment form-->
-                            <form class="mb-4"><textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea></form>
-                            <!-- Comment with nested comments-->
-                            <div class="d-flex mb-4">
-                                <!-- Parent comment-->
-                                <div class="flex-shrink-0"><img class="rounded" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                <div class="ms-3">
-                                    <div class="fw-bold">Commenter Name</div>
-                                    If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
-                                    <!-- Child comment 1-->
-                                    <div class="d-flex mt-4">
-                                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                        <div class="ms-3">
-                                            <div class="fw-bold">Commenter Name</div>
-                                            And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
-                                        </div>
-                                    </div>
-                                    <!-- Child comment 2-->
-                                    <div class="d-flex mt-4">
-                                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                        <div class="ms-3">
-                                            <div class="fw-bold">Commenter Name</div>
-                                            When you put money directly to a problem, it makes a good headline.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single comment-->
-                            <div class="d-flex">
-                                <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                <div class="ms-3">
-                                    <div class="fw-bold">Commenter Name</div>
-                                    When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
             </div>
             <!-- Side widgets-->
             <div class="col-lg-4">
-                <!-- Search widget-->
-                <div class="card mb-4">
-                    <div class="card-header">Search</div>
-                    <div class="card-body">
-                        <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
-                            <button class="btn btn-primary" id="button-search" type="button">Go!</button>
-                        </div>
-                    </div>
-                </div>
                 <!-- Categories widget-->
-                <div class="card mb-4">
-                    <div class="card-header">Kategori</div>
+                <div class="card mb-4 border-0">
+                    <div class="card-header">Share</div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <ul class="list-unstyled mb-0">
-                                    <li><a href="#!">Web Design</a></li>
-                                    <li><a href="#!">HTML</a></li>
-                                    <li><a href="#!">Freebies</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-6">
-                                <ul class="list-unstyled mb-0">
-                                    <li><a href="#!">JavaScript</a></li>
-                                    <li><a href="#!">CSS</a></li>
-                                    <li><a href="#!">Tutorials</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <ul class="list-unstyled mb-0 d-flex justify-content-center align-items-center">
+                            <li class="mx-2">
+                                <a href="https://api.whatsapp.com/send?text={{ urlencode($article->title . ' - Baca selengkapnya: ' . route('article', $article->slug)) }}" 
+                                    rel="nofollow" 
+                                    data-action="share/whatsapp/share"
+                                    class="d-flex justify-content-center align-items-center rounded-circle"
+                                    style="width: 40px; height: 40px; background-color: #25D366; color: white;">
+                                    <i class="bi bi-whatsapp fs-5"></i>
+                                </a>
+                            </li>
+                            <li class="mx-2">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('article', $article->slug)) }}" 
+                                    rel="nofollow" 
+                                    target="_blank"
+                                    class="d-flex justify-content-center align-items-center rounded-circle"
+                                    style="width: 40px; height: 40px; background-color: #1877F2; color: white;">
+                                    <i class="bi bi-facebook fs-5"></i>
+                                </a>
+                            </li>
+                            <li class="mx-2">
+                                <a href="https://twitter.com/intent/tweet?text={{ urlencode($article->title . ' - Baca selengkapnya: ' . route('article', $article->slug)) }}" 
+                                    rel="nofollow" 
+                                    target="_blank"
+                                    class="d-flex justify-content-center align-items-center rounded-circle"
+                                    style="width: 40px; height: 40px; background-color: #1DA1F2; color: white;">
+                                    <i class="bi bi-twitter fs-5"></i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <!-- Side widget-->
-                <div class="card mb-4">
+                <div class="card mb-4 border-0">
+                    <div class="card-header">Instagram</div>
+                    <div class="card-body">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="https://www.instagram.com/reel/Cmbg5oRJ306/embed/captioned/?cr=1&amp;v=14&amp;wp=326&amp" allowtransparency="true" scrolling="no" style="max-width: 540px; width: calc(100% - 2px); border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; margin: 0px 0px 12px; padding: 0px;"></iframe> 
+                            <script src="//www.instagram.com/embed.js"></script>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4 border-0">
                     <div class="card-header">Baca Juga</div>
                     <div class="card-body">
                         @if($relatedArticles->isEmpty())
-                            <p>No related articles found.</p>
+                            <p class="text-muted text-center">No related articles found.</p>
                         @else
                             <ul class="list-group list-group-flush">
                                 @foreach ($relatedArticles as $relatedArticle)
-                                    <li class="list-group-item">
-                                        <a href="{{ route('articles.show', $relatedArticle->slug) }}">
-                                            <div class="d-flex">
+                                    <li class="list-group-item p-0 mb-3">
+                                        <a href="{{ route('article', $relatedArticle->slug) }}" class="text-decoration-none">
+                                            <div class="d-flex align-items-center">
                                                 @if ($relatedArticle->image)
-                                                    <img src="{{ asset($relatedArticle->image) }}" alt="{{ $relatedArticle->title }}" class="img-fluid rounded-1" style="width: 120px; height: 80px; margin-right: 10px; object-fit: cover;">
+                                                    <div class="flex-shrink-0">
+                                                        <img src="{{ asset($relatedArticle->image) }}" 
+                                                             alt="{{ $relatedArticle->title }}" 
+                                                             class="img-fluid rounded" 
+                                                             style="width: 100px; height: 70px; object-fit: cover; margin-bottom:10px;">
+                                                    </div>
                                                 @endif
-                                                <div>
-                                                    {{ $relatedArticle->title }}
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="mb-0 text-dark">{{ Str::limit($relatedArticle->title, 50) }}</h6>
+                                                    <small class="text-muted">
+                                                        {{ $relatedArticle->created_at->format('M d, Y') }}
+                                                    </small>
                                                 </div>
                                             </div>
                                         </a>

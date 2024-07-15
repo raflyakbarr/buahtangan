@@ -5,8 +5,20 @@
     <div class="container p-5">
         <div class="row">
             <div class="col-md-12">
-                <h1>Articles</h1>
-                <a href="{{ route('articles.create') }}" class="btn btn-success mb-2">Create Article</a>
+                <div class="d-md-flex align-items-center mx-2">
+                    <h3 class="font-weight-bold mb-0">
+                        List Artikel
+                    </h3>
+                    <div class="d-flex align-items-center mb-0 ms-md-auto mb-sm-0 mb-2 me-2">
+                        <button onclick="refreshPage()" class="btn btn-dark bi bi-arrow-clockwise"> Refresh</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="my-3">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ route('articles.create') }}" class="btn btn-success mb-2">Buat Artikel</a>
                 <table class="table table-bordered text-center" id="articlesTable">
                     <thead>
                         <tr>
@@ -23,7 +35,6 @@
                                 <td>{{ $article->user->name }}</td>
                                 <td><a href="{{ route('article', ['slug' => $article->slug]) }}" class="btn btn-dark">Pergi ke halaman</a></td>
                                 <td>
-                                    <a href="{{ route('articles.show', $article->id) }}" class="btn btn-dark"><i class="bi bi-eye"></i></a>
                                     <a href="{{ route('articles.edit', $article->id) }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
                                     <form action="{{ route('articles.destroy', $article->id) }}" method="POST" style="display: inline;">
                                         @csrf
@@ -38,4 +49,9 @@
             </div>
         </div>
     </div>
+    <script>
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
 @endsection

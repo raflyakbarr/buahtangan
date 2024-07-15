@@ -44,8 +44,8 @@
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
-                                    <strong>Stock:</strong>
-                                    <input type="text" name="stock" value="{{ $product->stock }}" class="form-control" placeholder="Stock">
+                                    <strong>Kategori:</strong>
+                                    <input type="text" name="kategori" value="{{ $product->kategori }}" class="form-control" placeholder="Kategori">
                                 </div>
                             </div>
                             <div class="form-group">

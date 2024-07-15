@@ -1,6 +1,8 @@
+
+
 <?php $__env->startSection('content'); ?>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <div class="container-fluid py-4 px-5">
+        <div class="container py-4 px-5">
             <div class="row">
                 <div class="col-md-12">
                     <div class="d-md-flex align-items-center mb-3 mx-2">
@@ -33,7 +35,7 @@
 								<th>Name</th>
 								<th>Description</th>
 								<th>Price</th>
-								<th>Stock</th>
+								<th>Kategori</th>
 								<th>Image</th>
 								<th width="280px">Action</th>
 							</tr>
@@ -45,7 +47,7 @@
 								<td><?php echo e($product->name); ?></td>
 								<td><?php echo e($product->description); ?></td>
 								<td><?php echo e($product->price); ?></td>
-								<td><?php echo e($product->stock); ?></td>
+								<td><?php echo e($product->kategori); ?></td>
 								<td><img src="<?php echo e(asset($product->image)); ?>" alt="<?php echo e($product->name); ?>" width="100"></td>
 								<td>
 									<form action="<?php echo e(route('products.destroy', $product->id)); ?>" method="POST">
@@ -62,8 +64,6 @@
 					</table>
                 </div>
             </div>
-			<hr class="my-0">
-			<?php echo $__env->make('layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </div>
     </main>
     <?php $__env->startPush('scripts'); ?>

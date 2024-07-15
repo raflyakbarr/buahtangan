@@ -22,6 +22,15 @@
                     <li class="breadcrumb-item text-center text-sm text-light active" aria-current="page">
                         Buah Tangan
                     </li>
+                    <?php
+                        $segments = Request::segments();
+                    ?>
+                    <?php $__currentLoopData = $segments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $segment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <li class="breadcrumb-item text-center text-sm text-light <?php echo e($loop->last ? 'active' : ''); ?>" aria-current="page">
+                            <?php echo e(ucfirst($segment)); ?>
+
+                        </li>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </ol>
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
@@ -81,11 +90,6 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <button class="btn toggle-btn btn-outline-light me-3">
-                        <span class="bi bi-list"></span>
-                    </button>
-                </li>
-                <li class="sidebar-item">
                     <a href="<?php echo e(route('products.index')); ?>" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                         data-bs-target="#produk" aria-expanded="false" aria-controls="produk">
                         <i class="bi bi-boxes"></i>
@@ -97,6 +101,9 @@
                         </li>
                         <li class="sidebar-item">
                             <a href="<?php echo e(route('products.create')); ?>" class="sidebar-link">Tambah Produk</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="<?php echo e(route('product.list')); ?>" class="sidebar-link">Halaman List Produk</a>
                         </li>
                     </ul>
                 </li>
@@ -147,6 +154,7 @@
             <?php echo $__env->yieldContent('content'); ?>
         </div>
     </div>
+    <?php echo $__env->make('layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php echo app('Illuminate\Foundation\Vite')('resources/js/app.js'); ?>
         <script src="<?php echo e(asset('js/custom.js')); ?>"></script>
         <?php echo $__env->yieldPushContent('scripts'); ?>

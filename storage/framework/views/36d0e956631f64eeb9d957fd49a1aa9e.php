@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection('content'); ?>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <div class="container-fluid py-4 px-5">
@@ -27,13 +29,12 @@
                                     <h5 class="card-title text-center"><?php echo e($product->name); ?></h5>
                                     <p class="card-text">Deskripsi Produk: <?php echo e($product->description); ?></p>
                                     <p class="card-text">Harga: <?php echo e($product->price); ?></p>
-                                    <p class="card-text">Stock: <?php echo e($product->stock); ?></p>
+                                    <p class="card-text">Kategori: <?php echo e($product->kategori); ?></p>
                                 </div>
                             </div>
                         </a>
                     </div>
                 </div>
-                <?php echo $__env->make('layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </div>
     </main>
 <?php $__env->stopSection(); ?>

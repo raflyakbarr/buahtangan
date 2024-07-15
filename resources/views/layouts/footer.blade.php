@@ -1,7 +1,7 @@
-<footer class="footer p-5 ">
-    <div class="row align-items-center justify-content-lg-between ">
+<footer class="footer p-5 text-light" style="background-color:#0e2238;">
+    <div class="row align-items-center justify-content-lg-between p-4 ">
         <div class="col-lg-6 mb-lg-0 mb-4">
-            <div class="copyright text-center text-m text-muted text-lg-start">
+            <div class="copyright text-center text-m text-lg-start">
                 Copyright
                 ©
                 <script>
@@ -13,25 +13,25 @@
                 for a better web.
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 ">
             <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                 <li class="nav-item">
-                    <a href="#" class="nav-link text-m text-muted" target="_blank">Tim Kita</a>
+                    <a href="#" class="nav-link text-m text-light" target="_blank">Tim Kita</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link text-m text-muted"
+                    <a href="#" class="nav-link text-m text-light"
                         target="_blank">UPDIVISION</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link text-m text-muted"
+                    <a href="#" class="nav-link text-m text-light"
                         target="_blank">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link text-m text-muted"
+                    <a href="#" class="nav-link text-m text-light"
                         target="_blank">Blog</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link text-m pe-0 text-muted"
+                    <a href="#" class="nav-link text-m pe-0 text-light"
                         target="_blank">License</a>
                 </li>
             </ul>

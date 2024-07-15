@@ -55,7 +55,7 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id); // Mencari artikel berdasarkan ID
 
-        return view('articles.show', compact('article'));
+        return view('article', compact('article'));
     }
 
     public function edit($id)
@@ -67,19 +67,33 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required',
-            'content' => 'required',
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $article = Article::findOrFail($id);
+        $article = Article::find($id);
         $article->title = $request->title;
         $article->content = $request->content;
         $article->slug = Str::slug($request->title);
 
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            if ($article->image && file_exists(public_path($article->image))) {
+                unlink(public_path($article->image));
+            }
+
+            // Upload gambar baru
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $imageName);
+            $article->image = 'images/'.$imageName;
+        }
+
         $article->save();
 
-        return redirect()->route('articles.index')
-            ->with('success', 'Article updated successfully');
+        return redirect()->route('articles.index')->with('success', 'Article updated successfully');
     }
 
     public function destroy($id)

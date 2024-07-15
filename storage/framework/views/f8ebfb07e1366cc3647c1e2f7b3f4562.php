@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="<?php echo e(asset('css/swiper.bundle.min.css')); ?>">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="<?php echo e(asset('css/swiper.css')); ?>">
+    <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navbar -->
@@ -20,8 +22,9 @@
             top: 100%;
             left: 0;
             transform: translateY(-43%);
-            ">
+            "><a href="/">
                 <img src="https://s3-id-jkt-1.kilatstorage.id/cdn-buahtanganid/2024/07/Buah-Tangan-Logo-Compress.png" alt="Logo" class="img-fluid" style="height: 10rem;">
+              </a>
             </div>
                     <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" >
                         <span class="navbar-toggler-icon"></span>
@@ -32,13 +35,13 @@
                     margin-right: auto;
                     ">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Best Seller</a>
+                        <a class="nav-link" href="<?php echo e(route('article-list')); ?>">Artikel</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Produk Buah Tangan</a>
+                        <a class="nav-link" href="<?php echo e(route('product.list')); ?>">Produk Buah Tangan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">FAQ</a>
+                        <a class="nav-link" href="<?php echo e(route('faq')); ?>">FAQ</a>
                     </li>
                 </ul>
             </div>
