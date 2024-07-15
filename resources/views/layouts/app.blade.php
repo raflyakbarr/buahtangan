@@ -22,6 +22,14 @@
                     <li class="breadcrumb-item text-center text-sm text-light active" aria-current="page">
                         Buah Tangan
                     </li>
+                    @php
+                        $segments = Request::segments();
+                    @endphp
+                    @foreach($segments as $index => $segment)
+                        <li class="breadcrumb-item text-center text-sm text-light {{ $loop->last ? 'active' : '' }}" aria-current="page">
+                            {{ ucfirst($segment) }}
+                        </li>
+                    @endforeach
                 </ol>
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
@@ -80,11 +88,6 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <button class="btn toggle-btn btn-outline-light me-3">
-                        <span class="bi bi-list"></span>
-                    </button>
-                </li>
-                <li class="sidebar-item">
                     <a href="{{ route('products.index') }}" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                         data-bs-target="#produk" aria-expanded="false" aria-controls="produk">
                         <i class="bi bi-boxes"></i>
@@ -96,6 +99,9 @@
                         </li>
                         <li class="sidebar-item">
                             <a href="{{ route('products.create') }}" class="sidebar-link">Tambah Produk</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{{ route('product.list') }}" class="sidebar-link">Halaman List Produk</a>
                         </li>
                     </ul>
                 </li>
@@ -146,6 +152,7 @@
             @yield('content')
         </div>
     </div>
+    @include('layouts.footer')
     @vite('resources/js/app.js')
         <script src="{{ asset('js/custom.js') }}"></script>
         @stack('scripts')

@@ -128,3 +128,7 @@ a.sidebar-link:hover {
     transform: rotate(45deg);
     transition: all .2s ease-out;
 }
+
+.breadcrumb-item+.breadcrumb-item::before {
+    color: white;
+}

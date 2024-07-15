@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection('content'); ?>
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
     <div class="container-fluid py-4 px-5">
@@ -38,9 +40,9 @@
         </div>
         <hr class="my-0 mb-3">
         <div class="container mt-5">
-            <div class="row g-3 justify-content-center">
+            <div class="row g-3">
                 <div class="col-md-3"> <!-- Atur ukuran kolom menjadi 3 untuk empat card -->
-                    <div class="card" style="border-radius:10px; border-left:10px solid #055E2E;">
+                    <div class="card shadow" style="border-radius:10px; border-left:10px solid #055E2E;">
                         <div class="card-body">
                             <h5 class="card-title"><i class="bi bi-box-fill fs-3"></i> Jumlah Produk</h5>
                             <p class="card-text fs-2"><?php echo e($totalProducts); ?></p>
@@ -48,7 +50,7 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card" style="border-radius:10px; border-left:10px solid #055E2E;">
+                    <div class="card shadow" style="border-radius:10px; border-left:10px solid #055E2E;">
                         <div class="card-body">
                             <h5 class="card-title"><i class="bi bi-people-fill fs-3"></i> Jumlah Member</h5>
                             <p class="card-text fs-2"><?php echo e($totalMember); ?></p>
@@ -56,25 +58,15 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card" style="border-radius:10px; border-left:10px solid #055E2E;">
+                    <div class="card shadow" style="border-radius:10px; border-left:10px solid #055E2E;">
                         <div class="card-body">
                             <h5 class="card-title"><i class="bi bi-building-fill-gear fs-3"></i> Jumlah Artikel</h5>
                             <p class="card-text fs-2"><?php echo e($totalArticle); ?></p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card" style="border-radius:10px; border-left:10px solid #055E2E;">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="bi bi-building-fill-gear fs-3"></i> Status Resto</h5>
-                            <p class="card-text fs-2">Booked</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-        <hr class="mt-3">
-        <?php echo $__env->make('layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     </div>
 </main>
 <?php $__env->stopSection(); ?>

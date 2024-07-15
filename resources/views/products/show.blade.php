@@ -28,13 +28,12 @@
                                     <h5 class="card-title text-center">{{ $product->name }}</h5>
                                     <p class="card-text">Deskripsi Produk: {{ $product->description }}</p>
                                     <p class="card-text">Harga: {{ $product->price }}</p>
-                                    <p class="card-text">Stock: {{ $product->stock }}</p>
+                                    <p class="card-text">Kategori: {{ $product->kategori }}</p>
                                 </div>
                             </div>
                         </a>
                     </div>
                 </div>
-                @include('layouts.footer')
         </div>
     </main>
 @endsection

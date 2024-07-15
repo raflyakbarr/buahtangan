@@ -39,9 +39,9 @@
         </div>
         <hr class="my-0 mb-3">
         <div class="container mt-5">
-            <div class="row g-3 justify-content-center">
+            <div class="row g-3">
                 <div class="col-md-3"> <!-- Atur ukuran kolom menjadi 3 untuk empat card -->
-                    <div class="card" style="border-radius:10px; border-left:10px solid #055E2E;">
+                    <div class="card shadow" style="border-radius:10px; border-left:10px solid #055E2E;">
                         <div class="card-body">
                             <h5 class="card-title"><i class="bi bi-box-fill fs-3"></i> Jumlah Produk</h5>
                             <p class="card-text fs-2">{{ $totalProducts }}</p>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card" style="border-radius:10px; border-left:10px solid #055E2E;">
+                    <div class="card shadow" style="border-radius:10px; border-left:10px solid #055E2E;">
                         <div class="card-body">
                             <h5 class="card-title"><i class="bi bi-people-fill fs-3"></i> Jumlah Member</h5>
                             <p class="card-text fs-2">{{ $totalMember }}</p>
@@ -57,25 +57,15 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card" style="border-radius:10px; border-left:10px solid #055E2E;">
+                    <div class="card shadow" style="border-radius:10px; border-left:10px solid #055E2E;">
                         <div class="card-body">
                             <h5 class="card-title"><i class="bi bi-building-fill-gear fs-3"></i> Jumlah Artikel</h5>
                             <p class="card-text fs-2">{{ $totalArticle }}</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card" style="border-radius:10px; border-left:10px solid #055E2E;">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="bi bi-building-fill-gear fs-3"></i> Status Resto</h5>
-                            <p class="card-text fs-2">Booked</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-        <hr class="mt-3">
-        @include('layouts.footer')
     </div>
 </main>
 @endsection

@@ -2,7 +2,7 @@
 @extends('layouts.app')
 @section('content')
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <div class="container-fluid py-4 px-5">
+        <div class="container py-4 px-5">
             <div class="row">
                 <div class="col-md-12">
                     <div class="d-md-flex align-items-center mb-3 mx-2">
@@ -35,7 +35,7 @@
 								<th>Name</th>
 								<th>Description</th>
 								<th>Price</th>
-								<th>Stock</th>
+								<th>Kategori</th>
 								<th>Image</th>
 								<th width="280px">Action</th>
 							</tr>
@@ -47,7 +47,7 @@
 								<td>{{ $product->name }}</td>
 								<td>{{ $product->description }}</td>
 								<td>{{ $product->price }}</td>
-								<td>{{ $product->stock }}</td>
+								<td>{{ $product->kategori }}</td>
 								<td><img src="{{ asset($product->image) }}" alt="{{ $product->name }}" width="100"></td>
 								<td>
 									<form action="{{ route('products.destroy', $product->id) }}" method="POST">
@@ -64,8 +64,6 @@
 					</table>
                 </div>
             </div>
-			<hr class="my-0">
-			@include('layouts.footer')
         </div>
     </main>
     @push('scripts')

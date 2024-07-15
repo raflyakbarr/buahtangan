@@ -5,7 +5,7 @@
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
-            <th>Stock</th>
+            <th>Kategori</th>
         </tr>
     </thead>
     <tbody>
@@ -15,7 +15,7 @@
                 <td><?php echo e($product->name); ?></td>
                 <td><?php echo e($product->description); ?></td>
                 <td><?php echo e($product->price); ?></td>
-                <td><?php echo e($product->stock); ?></td>
+                <td><?php echo e($product->kategori); ?></td>
             </tr>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </tbody>

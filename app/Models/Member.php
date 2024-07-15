@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Member extends Model
 {
@@ -14,6 +15,11 @@ class Member extends Model
         'telp',
         'member_number',
         'points',
+        'user_id',
         'qr_code',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

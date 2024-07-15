@@ -5,7 +5,7 @@
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
-            <th>Stock</th>
+            <th>Kategori</th>
         </tr>
     </thead>
     <tbody>
@@ -15,7 +15,7 @@
                 <td>{{ $product->name }}</td>
                 <td>{{ $product->description }}</td>
                 <td>{{ $product->price }}</td>
-                <td>{{ $product->stock }}</td>
+                <td>{{ $product->kategori }}</td>
             </tr>
         @endforeach
     </tbody>
