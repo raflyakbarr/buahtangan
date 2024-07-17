@@ -14,33 +14,21 @@
                         </h3>
                         <p class="mb-0">Apps you might like!</p>
                     </div>
-                    <button type="button"
-                        class="btn btn-sm btn-white btn-icon d-flex align-items-center mb-0 ms-md-auto mb-sm-0 mb-2 me-2">
-                        <span class="btn-inner--icon">
-                            <span class="p-1 bg-success rounded-circle d-flex ms-auto me-2">
-                                <span class="visually-hidden">New</span>
+                    @if(Auth::user()->role === 'super_admin')
+                        <a href="{{ route('admins.index') }}" class="btn btn-sm btn-success btn-icon d-flex align-items-center mb-0 ms-md-auto mb-sm-0 mb-2 me-2">
+                            <span class="btn-inner--icon">
+                                <i class="bi bi-person-plus-fill"></i>
                             </span>
-                        </span>
-                        <span class="btn-inner--text">Messages</span>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-dark btn-icon d-flex align-items-center mb-0">
-                        <span class="btn-inner--icon">
-                            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                class="d-block me-2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                            </svg>
-                        </span>
-                        <span class="btn-inner--text">Sync</span>
-                    </button>
+                            <span class="btn-inner--text">Daftarkan Admin</span>
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>
         <hr class="my-0 mb-3">
         <div class="container mt-5">
             <div class="row g-3">
-                <div class="col-md-3"> <!-- Atur ukuran kolom menjadi 3 untuk empat card -->
+                <div class="col-md-3">
                     <div class="card shadow" style="border-radius:10px; border-left:10px solid #055E2E;">
                         <div class="card-body">
                             <h5 class="card-title"><i class="bi bi-box-fill fs-3"></i> Jumlah Produk</h5>
@@ -64,6 +52,16 @@
                         </div>
                     </div>
                 </div>
+                @if(Auth::user()->role === 'super_admin')
+                <div class="col-md-3">
+                    <div class="card shadow" style="border-radius:10px; border-left:10px solid #055E2E;">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-person-badge-fill fs-3"></i> Jumlah Admin</h5>
+                            <p class="card-text fs-2">{{ $totalAdmin }}</p>
+                        </div>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
     </div>

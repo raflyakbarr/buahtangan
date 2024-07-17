@@ -39,7 +39,7 @@
                                     <form action="<?php echo e(route('articles.destroy', $article->id)); ?>" method="POST" style="display: inline;">
                                         <?php echo csrf_field(); ?>
                                         <?php echo method_field('DELETE'); ?>
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this article?')"><i class="bi bi-trash3"></i></button>
+                                        <button type="submit" class="btn btn-danger btn-delete" data-slug="<?php echo e($article->slug); ?>"><i class="bi bi-trash3"></i></button>
                                     </form>
                                 </td>
                             </tr>
@@ -49,11 +49,37 @@
             </div>
         </div>
     </div>
-    <script>
+    <?php $__env->startPush('scripts'); ?>
+    <script type="module">
+        $(document).ready(function() {
+            $('#articlesTable').DataTable();
+    
+            $('.btn-delete').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
+                var title = $(this).closest('tr').find('td:first').text(); 
+    
+                Swal.fire({
+                    title: 'Anda yakin ingin menghapus artikel\n"' + title + '"?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    
         function refreshPage() {
             window.location.reload();
         }
     </script>
+    <?php $__env->stopPush(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\buahtangan\resources\views/articles/index.blade.php ENDPATH**/ ?>

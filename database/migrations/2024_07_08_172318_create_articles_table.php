@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->longText('content');
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('user_id'); // Kolom untuk menyimpan ID user sebagai penulis
             $table->timestamps();
 

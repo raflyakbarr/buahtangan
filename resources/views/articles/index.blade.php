@@ -39,7 +39,7 @@
                                     <form action="{{ route('articles.destroy', $article->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this article?')"><i class="bi bi-trash3"></i></button>
+                                        <button type="submit" class="btn btn-danger btn-delete" data-slug="{{ $article->slug }}"><i class="bi bi-trash3"></i></button>
                                     </form>
                                 </td>
                             </tr>
@@ -49,9 +49,35 @@
             </div>
         </div>
     </div>
-    <script>
+    @push('scripts')
+    <script type="module">
+        $(document).ready(function() {
+            $('#articlesTable').DataTable();
+    
+            $('.btn-delete').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
+                var title = $(this).closest('tr').find('td:first').text(); 
+    
+                Swal.fire({
+                    title: 'Anda yakin ingin menghapus artikel\n"' + title + '"?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    
         function refreshPage() {
             window.location.reload();
         }
     </script>
+    @endpush
 @endsection
