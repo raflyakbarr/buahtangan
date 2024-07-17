@@ -16,6 +16,7 @@ class ArticleController extends Controller
     {
         $articles = Article::all();
         $articles = Article::with('user')->latest()->paginate(10);
+        confirmDelete();
         return view('articles.index', compact('articles'));
     }
 
@@ -100,7 +101,7 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
         $article->delete();
-
+        Alert::success('Berhasil Dihapus', 'Artikel Berhasil Dihapus.');
         return redirect()->route('articles.index')
             ->with('success', 'Article deleted successfully');
     }

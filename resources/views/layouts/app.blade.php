@@ -138,7 +138,23 @@
                         </li>
                     </ul>
                 </li>
-
+                @if(Auth::user()->role === 'super_admin')
+                <li class="sidebar-item">
+                    <a href="{{ route('articles.index') }}" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                        data-bs-target="#article" aria-expanded="false" aria-controls="article">
+                        <i class="bi bi-person-badge"></i>
+                        <span>Admin</span>
+                    </a>
+                    <ul id="article" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="{{ route('admins.index') }}" class="sidebar-link">Tambah Admin</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{{ route('admins.create') }}" class="sidebar-link">Daftar Admin</a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
             </ul>
             <div class="sidebar-footer">
                 <a href="#" class="sidebar-link">

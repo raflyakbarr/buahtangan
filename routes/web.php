@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ArticleListController;
+use App\Http\Controllers\AdminController;
 use App\Models\Article;
 
 Route::get('/', function () {
@@ -25,6 +26,11 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::resource('articles', ArticleController::class);
     Route::resource('products', ProductController::class);
     Route::get('/exportExcel', [ProductController::class, 'exportExcel'])->name('products.exportExcel');
+});
+Route::middleware(['auth', 'role:super_admin'])->group(function () {
+    Route::prefix('dashboard')->group(function () {
+        Route::resource('admins', AdminController::class);
+    });
 });
 Route::get('/member-list/{member_number}', [MemberController::class, 'indexForGuests'])->name('member.list');
 Route::get('/article-list', [ArticleListController::class, 'index'])->name('article-list');

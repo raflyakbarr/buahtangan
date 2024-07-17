@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product; //memanggil model produk untuk menampilkan jumlah total prduk
-use App\Models\Article; //memanggil model produk untuk menampilkan jumlah total prduk
-use App\Models\Member; //memanggil model produk untuk menampilkan jumlah total prduk
+use App\Models\Product;
+use App\Models\Article; 
+use App\Models\Member; 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -29,9 +30,10 @@ class DashboardController extends Controller
         $products = Product::all();
         $articles = Article::all();
         $members = Member::all();
+        $totalAdmin = User::where('role', 'admin')->count();
         $totalProducts = $products->count();
         $totalArticle = $articles->count();
         $totalMember = $members->count();
-        return view('dashboard', compact('totalProducts', 'totalArticle', 'totalMember'));
+        return view('dashboard', compact('totalProducts', 'totalArticle', 'totalMember', 'totalAdmin'));
     }
 }
