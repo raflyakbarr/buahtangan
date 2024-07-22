@@ -42,19 +42,24 @@ class MemberController extends Controller
         $member->points = $request->points;
         $member->user_id = Auth::id();
 
-        // Save the member first to get the ID
         $member->save();
 
-        // Generate QR code
         $link = url('/member-list/' . $member->member_number);
         $qrCode = QrCode::size(300)
                     ->style('dot')
                     ->eye('circle')
                     ->margin(1)
-                    ->color(1, 94, 0) // Adjust RGB color values as needed
+                    ->color(1, 94, 0) 
                     ->generate($link);
+        
+        $qrCodeDir = public_path('qrcodes');
+        if (!File::isDirectory($qrCodeDir)) {
+            File::makeDirectory($qrCodeDir, 0755, true, true);
+        }
+
         $qrCodePath = 'qrcodes/' . time() . '.svg';
-        file_put_contents(public_path($qrCodePath), $qrCode);
+        $fullPath = public_path($qrCodePath);
+        file_put_contents($fullPath, $qrCode);
 
         $member->qr_code = $qrCodePath;
         $member->save();
