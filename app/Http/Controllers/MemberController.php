@@ -83,7 +83,6 @@ class MemberController extends Controller
             ->with('admin')
             ->orderByDesc('created_at')
             ->paginate(10);
-
         return view('members.show', compact('member', 'riwayatPoints'));
     }
 
@@ -185,5 +184,30 @@ class MemberController extends Controller
         RiwayatPoint::where('member_number', $member_number)->delete();
         Alert::success('Reset Sukses', 'Memper Points Berhasil Di Edit.');
         return redirect()->route('members.index', $member_number);
+    }
+    public function tukarPoin(Request $request, $member_number)
+    {
+        $request->validate([
+            'points' => 'required|integer|min:1'
+        ]);
+    
+        $member = Member::where('member_number', $member_number)->firstOrFail();
+    
+        if ($member->points < $request->points) {
+            Alert::error('Error', 'Poin tidak mencukupi untuk ditukarkan.');
+            return redirect()->back();
+        }
+    
+        $member->points -= $request->points;
+        $member->save();
+    
+        RiwayatPoint::create([
+            'member_number' => $member->member_number,
+            'user_id' => Auth::id(),
+            'points' => -$request->points, // Negative value to indicate points were deducted
+        ]);
+    
+        Alert::success('Sukses', 'Poin berhasil ditukarkan.');
+        return redirect()->route('members.show', $member_number);
     }
 }

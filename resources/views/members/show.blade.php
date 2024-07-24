@@ -29,6 +29,21 @@
                     <p class="card-text"><strong>Member Points: </strong>{{ $member->points }}</p>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Tukar Points</h5>
+                    <form id="tukarPoinForm" action="{{ route('members.tukarPoin', $member->member_number) }}" method="POST">
+                        @csrf
+                        <div class="form-group mb-3">
+                            <label for="points">Jumlah Poin yang Ditukarkan:</label>
+                            <input type="number" name="points" id="points" class="form-control" required min="1" max="{{ $member->points }}">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-dark btn-tkrpoints" onclick="return confirmTukar()">Tukar Poin</button>
+                        </div>      
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="col-md-6">
             <div class="card">
@@ -46,7 +61,9 @@
                                 <th>Admin</th>
                                 <th>Points</th>
                                 <th>Tanggal</th>
-                                <th>Aksi</th>
+                                @if(Auth::user()->role === 'super_admin')
+                                    <th>Aksi</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -56,22 +73,62 @@
                                 <td>{{ $riwayatPoint->admin->name }}</td>
                                 <td>{{ $riwayatPoint->points }}</td>
                                 <td>{{ $riwayatPoint->created_at->format('d-m-Y H:i:s') }}</td>
-                                <td>
-                                    <form action="{{ route('members.deleteRiwayatPoint', $member->member_number) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus riwayat point ini?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="hidden" name="id" value="{{ $riwayatPoint->id }}">
-                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                    </form>
-                                </td>
+                                @if(Auth::user()->role === 'super_admin')
+                                    <td>
+                                        <form action="{{ route('members.deleteRiwayatPoint', $member->member_number) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus riwayat point ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="id" value="{{ $riwayatPoint->id }}">
+                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                        </form>
+                                    </td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $riwayatPoints->links() }}
+                </div>
+                <div class="text-center mx-3 my-3">
+                    {{ $riwayatPoints->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+    <script>
+        function confirmTukar() {
+            var points = document.getElementById('points').value;
+            var maxPoints = {{ $member->points }};
+
+            if (!points || points <= 0 || points > maxPoints) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Jumlah poin tidak valid.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return false;
+            }
+
+            Swal.fire({
+                title: 'Konfirmasi Penukaran Poin',
+                text: `Anda akan menukarkan ${points} poin. Apakah Anda yakin?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Tukarkan!',
+                cancelButtonText: 'Batal'
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    document.getElementById('tukarPoinForm').submit();
+                }
+            });
+
+            return false; 
+        }
+    </script>
+@endpush
