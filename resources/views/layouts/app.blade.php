@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
 </head>
 <body>
     @auth
@@ -171,6 +173,7 @@
     @include('layouts.footer')
     @vite('resources/js/app.js')
         <script src="{{ asset('js/custom.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @stack('scripts')
         @include('sweetalert::alert')
 </body>

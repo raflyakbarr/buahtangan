@@ -30,6 +30,21 @@
                     <p class="card-text"><strong>Member Points: </strong><?php echo e($member->points); ?></p>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Tukar Points</h5>
+                    <form id="tukarPoinForm" action="<?php echo e(route('members.tukarPoin', $member->member_number)); ?>" method="POST">
+                        <?php echo csrf_field(); ?>
+                        <div class="form-group mb-3">
+                            <label for="points">Jumlah Poin yang Ditukarkan:</label>
+                            <input type="number" name="points" id="points" class="form-control" required min="1" max="<?php echo e($member->points); ?>">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-dark btn-tkrpoints" onclick="return confirmTukar()">Tukar Poin</button>
+                        </div>      
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="col-md-6">
             <div class="card">
@@ -48,7 +63,9 @@
                                 <th>Admin</th>
                                 <th>Points</th>
                                 <th>Tanggal</th>
-                                <th>Aksi</th>
+                                <?php if(Auth::user()->role === 'super_admin'): ?>
+                                    <th>Aksi</th>
+                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,19 +75,23 @@
                                 <td><?php echo e($riwayatPoint->admin->name); ?></td>
                                 <td><?php echo e($riwayatPoint->points); ?></td>
                                 <td><?php echo e($riwayatPoint->created_at->format('d-m-Y H:i:s')); ?></td>
-                                <td>
-                                    <form action="<?php echo e(route('members.deleteRiwayatPoint', $member->member_number)); ?>" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus riwayat point ini?');">
-                                        <?php echo csrf_field(); ?>
-                                        <?php echo method_field('DELETE'); ?>
-                                        <input type="hidden" name="id" value="<?php echo e($riwayatPoint->id); ?>">
-                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                    </form>
-                                </td>
+                                <?php if(Auth::user()->role === 'super_admin'): ?>
+                                    <td>
+                                        <form action="<?php echo e(route('members.deleteRiwayatPoint', $member->member_number)); ?>" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus riwayat point ini?');">
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('DELETE'); ?>
+                                            <input type="hidden" name="id" value="<?php echo e($riwayatPoint->id); ?>">
+                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                        </form>
+                                    </td>
+                                <?php endif; ?>
                             </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
-                    <?php echo e($riwayatPoints->links()); ?>
+                </div>
+                <div class="text-center mx-3 my-3">
+                    <?php echo e($riwayatPoints->links('pagination::bootstrap-5')); ?>
 
                 </div>
             </div>
@@ -78,4 +99,41 @@
     </div>
 </div>
 <?php $__env->stopSection(); ?>
+
+<?php $__env->startPush('scripts'); ?>
+    <script>
+        function confirmTukar() {
+            var points = document.getElementById('points').value;
+            var maxPoints = <?php echo e($member->points); ?>;
+
+            if (!points || points <= 0 || points > maxPoints) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Jumlah poin tidak valid.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return false;
+            }
+
+            Swal.fire({
+                title: 'Konfirmasi Penukaran Poin',
+                text: `Anda akan menukarkan ${points} poin. Apakah Anda yakin?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Tukarkan!',
+                cancelButtonText: 'Batal'
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    document.getElementById('tukarPoinForm').submit();
+                }
+            });
+
+            return false; 
+        }
+    </script>
+<?php $__env->stopPush(); ?>
+
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\buahtangan\resources\views/members/show.blade.php ENDPATH**/ ?>

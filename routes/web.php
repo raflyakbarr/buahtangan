@@ -23,6 +23,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::post('/members/add-points', [MemberController::class, 'addPoints'])->name('members.addPoints');
     Route::delete('/members/{member_number}/riwayat-points', [MemberController::class, 'deleteRiwayatPoint'])->name('members.deleteRiwayatPoint');
     Route::post('/members/{member}/reset-points', [MemberController::class, 'resetPoints'])->name('members.resetPoints');
+    Route::post('/members/{member_number}/tukar-poin', [MemberController::class, 'tukarPoin'])->name('members.tukarPoin');
     Route::resource('articles', ArticleController::class);
     Route::resource('products', ProductController::class);
     Route::get('/exportExcel', [ProductController::class, 'exportExcel'])->name('products.exportExcel');

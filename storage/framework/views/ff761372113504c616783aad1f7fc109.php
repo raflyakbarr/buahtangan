@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="<?php echo e(asset('css/custom.css')); ?>">
     <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
 </head>
 <body>
     <?php if(auth()->guard()->check()): ?>
@@ -173,6 +175,7 @@
     <?php echo $__env->make('layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php echo app('Illuminate\Foundation\Vite')('resources/js/app.js'); ?>
         <script src="<?php echo e(asset('js/custom.js')); ?>"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <?php echo $__env->yieldPushContent('scripts'); ?>
         <?php echo $__env->make('sweetalert::alert', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 </body>
