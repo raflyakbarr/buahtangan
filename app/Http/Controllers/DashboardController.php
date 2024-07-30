@@ -30,7 +30,7 @@ class DashboardController extends Controller
         $products = Product::all();
         $articles = Article::all();
         $members = Member::all();
-        $totalAdmin = User::where('role', 'admin')->count();
+        $totalAdmin = User::whereIn('role', ['admin', 'content_writer'])->count();
         $totalProducts = $products->count();
         $totalArticle = $articles->count();
         $totalMember = $members->count();

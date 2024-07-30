@@ -12,7 +12,15 @@
                                 Hello, {{ Auth::user()->name }}
                             @endauth
                         </h3>
-                        <p class="mb-0">Apps you might like!</p>
+                        <p class="mb-0">
+                            @if(Auth::user()->role === 'content_writer')
+                            Content Writer
+                            @elseif(Auth::user()->role === 'admin')
+                            Admin
+                            @else
+                            Super Admin
+                            @endif
+                        </p>
                     </div>
                     @if(Auth::user()->role === 'super_admin')
                         <a href="{{ route('admins.index') }}" class="btn btn-sm btn-success btn-icon d-flex align-items-center mb-0 ms-md-auto mb-sm-0 mb-2 me-2">

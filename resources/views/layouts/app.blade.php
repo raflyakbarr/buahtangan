@@ -89,6 +89,8 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
+            
+                @if(Auth::user()->role === 'super_admin' || Auth::user()->role === 'admin')
                 <li class="sidebar-item">
                     <a href="{{ route('products.index') }}" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                         data-bs-target="#produk" aria-expanded="false" aria-controls="produk">
@@ -107,8 +109,9 @@
                         </li>
                     </ul>
                 </li>
+            
                 <li class="sidebar-item">
-                    <a href="{{ route('products.index') }}" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                    <a href="{{ route('members.index') }}" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                         data-bs-target="#member" aria-expanded="false" aria-controls="member">
                         <i class="bi bi-people"></i>
                         <span>Member</span>
@@ -122,6 +125,9 @@
                         </li>
                     </ul>
                 </li>
+                @endif
+            
+                @if(Auth::user()->role === 'super_admin' || Auth::user()->role === 'content_writer')
                 <li class="sidebar-item">
                     <a href="{{ route('articles.index') }}" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                         data-bs-target="#article" aria-expanded="false" aria-controls="article">
@@ -140,19 +146,21 @@
                         </li>
                     </ul>
                 </li>
+                @endif
+            
                 @if(Auth::user()->role === 'super_admin')
                 <li class="sidebar-item">
-                    <a href="{{ route('articles.index') }}" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                        data-bs-target="#article" aria-expanded="false" aria-controls="article">
+                    <a href="{{ route('admins.index') }}" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                        data-bs-target="#admin" aria-expanded="false" aria-controls="admin">
                         <i class="bi bi-person-badge"></i>
                         <span>Admin</span>
                     </a>
-                    <ul id="article" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <ul id="admin" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="{{ route('admins.index') }}" class="sidebar-link">Tambah Admin</a>
+                            <a href="{{ route('admins.index') }}" class="sidebar-link">Daftar Admin</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{{ route('admins.create') }}" class="sidebar-link">Daftar Admin</a>
+                            <a href="{{ route('admins.create') }}" class="sidebar-link">Tambah Admin</a>
                         </li>
                     </ul>
                 </li>
@@ -170,11 +178,22 @@
             @yield('content')
         </div>
     </div>
+    @if(session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: "{{ session('error') }}",
+                });
+            });
+        </script>
+    @endif
     @include('layouts.footer')
     @vite('resources/js/app.js')
-        <script src="{{ asset('js/custom.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        @stack('scripts')
-        @include('sweetalert::alert')
+    <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @stack('scripts')
+    @include('sweetalert::alert')
 </body>
 </html>

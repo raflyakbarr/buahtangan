@@ -29,6 +29,7 @@
 						<thead>
 							<tr class="text-center">
                                 <th>Nama</th>
+                                <th>Role</th>
                                 <th>Email</th>
                                 <th>Aksi</th>
 							</tr>
@@ -37,6 +38,16 @@
 							<?php $__currentLoopData = $admins; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $admin): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 							<tr class="text-center">
 								<td><?php echo e($admin->name); ?></td>
+                                <td>
+                                    <?php if($admin->role == 'content_writer'): ?>
+                                        Content Writer
+                                    <?php elseif($admin->role == 'admin'): ?>
+                                        Admin
+                                    <?php else: ?>
+                                        <?php echo e(ucfirst($admin->role)); ?>
+
+                                    <?php endif; ?>
+                                </td>
                                 <td><?php echo e($admin->email); ?></td>
                                 <td>
                                     <a href="<?php echo e(route('admins.edit', $admin->id)); ?>" class="btn btn-primary">Edit</a>

@@ -29,6 +29,7 @@
 						<thead>
 							<tr class="text-center">
                                 <th>Nama</th>
+                                <th>Role</th>
                                 <th>Email</th>
                                 <th>Aksi</th>
 							</tr>
@@ -37,6 +38,15 @@
 							@foreach($admins as $admin)
 							<tr class="text-center">
 								<td>{{ $admin->name }}</td>
+                                <td>
+                                    @if($admin->role == 'content_writer')
+                                        Content Writer
+                                    @elseif($admin->role == 'admin')
+                                        Admin
+                                    @else
+                                        {{ ucfirst($admin->role) }}
+                                    @endif
+                                </td>
                                 <td>{{ $admin->email }}</td>
                                 <td>
                                     <a href="{{ route('admins.edit', $admin->id) }}" class="btn btn-primary">Edit</a>
