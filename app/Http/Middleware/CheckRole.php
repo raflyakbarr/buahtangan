@@ -9,17 +9,24 @@ use Illuminate\Support\Facades\Auth;
 
 class CheckRole
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (Auth::check() && Auth::user()->role === $role) {
-            return $next($request);
+        if (!Auth::check()) {
+            return redirect('/login');
         }
 
-        return redirect('/')->with('error', 'You do not have permission to access this page.');
+        $userRole = Auth::user()->role;
+        // Jika user adalah super_admin, izinkan akses ke semua route
+        if ($userRole === 'super_admin') {
+            return $next($request);
+        }
+        // Jika tidak, periksa apakah role users ada dalam daftar role skuy yang diizinkan
+        foreach ($roles as $role) {
+            if ($userRole === $role) {
+                return $next($request);
+            }
+        }
+        
+        return redirect('/dashboard')->with('error', 'Anda tidak memiliki akses untuk halaman tersebut.');
     }
 }

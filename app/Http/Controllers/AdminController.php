@@ -11,7 +11,7 @@ class AdminController extends Controller
     // Display a listing of the admins
     public function index()
     {
-        $admins = User::where('role', 'admin')->get();
+        $admins = User::whereIn('role', ['admin', 'content_writer'])->get();
         confirmDelete();
         return view('admins.index', compact('admins'));
     }
@@ -29,15 +29,16 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|string|in:admin,content_writer',
         ]);
-
+    
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'admin',
+            'role' => $request->role,
         ]);
-
+    
         return redirect()->route('admins.index')->with('success', 'Admin created successfully.');
     }
 
@@ -54,12 +55,14 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $admin->id,
             'password' => 'nullable|string|min:8|confirmed',
+            'role' => 'required|in:admin,content_writer',
         ]);
 
         $admin->update([
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password ? Hash::make($request->password) : $admin->password,
+            'role' => $request->role,
         ]);
 
         return redirect()->route('admins.index')->with('success', 'Admin updated successfully.');

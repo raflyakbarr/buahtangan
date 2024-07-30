@@ -18,19 +18,25 @@ Auth::routes();
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Group route dengan prefix 'dashboard' untuk products dan exportExcel
-Route::prefix('dashboard')->middleware('auth')->group(function () {
-    Route::resource('members', MemberController::class);
-    Route::post('/members/add-points', [MemberController::class, 'addPoints'])->name('members.addPoints');
-    Route::delete('/members/{member_number}/riwayat-points', [MemberController::class, 'deleteRiwayatPoint'])->name('members.deleteRiwayatPoint');
-    Route::post('/members/{member}/reset-points', [MemberController::class, 'resetPoints'])->name('members.resetPoints');
-    Route::post('/members/{member_number}/tukar-poin', [MemberController::class, 'tukarPoin'])->name('members.tukarPoin');
-    Route::resource('articles', ArticleController::class);
-    Route::resource('products', ProductController::class);
-    Route::get('/exportExcel', [ProductController::class, 'exportExcel'])->name('products.exportExcel');
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::prefix('dashboard')->group(function () {
+        Route::resource('members', MemberController::class);
+        Route::post('/members/add-points', [MemberController::class, 'addPoints'])->name('members.addPoints');
+        Route::delete('/members/{member_number}/riwayat-points', [MemberController::class, 'deleteRiwayatPoint'])->name('members.deleteRiwayatPoint');
+        Route::post('/members/{member}/reset-points', [MemberController::class, 'resetPoints'])->name('members.resetPoints');
+        Route::post('/members/{member_number}/tukar-poin', [MemberController::class, 'tukarPoin'])->name('members.tukarPoin');
+        Route::resource('products', ProductController::class);
+        Route::get('/exportExcel', [ProductController::class, 'exportExcel'])->name('products.exportExcel');
+    });
 });
 Route::middleware(['auth', 'role:super_admin'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::resource('admins', AdminController::class);
+    });
+});
+Route::middleware(['auth', 'role:content_writer'])->group(function () {
+    Route::prefix('dashboard')->group(function () {
+        Route::resource('articles', ArticleController::class);
     });
 });
 Route::get('/member-list/{member_number}', [MemberController::class, 'indexForGuests'])->name('member.list');

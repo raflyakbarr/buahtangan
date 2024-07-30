@@ -29,8 +29,16 @@
             <input type="email" class="form-control" id="email" name="email" value="{{ $admin->email }}" required>
         </div>
         <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <select class="form-select" id="role" name="role" required>
+                <option value="admin" {{ $admin->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                <option value="content_writer" {{ $admin->role == 'content_writer' ? 'selected' : '' }}>Content Writer</option>
+            </select>
+        </div>
+        <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" name="password">
+            <small class="form-text text-muted">Kosongkan field ini jika tidak merubah password</small>
         </div>
         <div class="mb-3">
             <label for="password_confirmation" class="form-label">Confirm Password</label>

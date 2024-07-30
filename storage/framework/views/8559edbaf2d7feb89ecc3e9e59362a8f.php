@@ -13,7 +13,15 @@
 
                             <?php endif; ?>
                         </h3>
-                        <p class="mb-0">Apps you might like!</p>
+                        <p class="mb-0">
+                            <?php if(Auth::user()->role === 'content_writer'): ?>
+                            Content Writer
+                            <?php elseif(Auth::user()->role === 'admin'): ?>
+                            Admin
+                            <?php else: ?>
+                            Super Admin
+                            <?php endif; ?>
+                        </p>
                     </div>
                     <?php if(Auth::user()->role === 'super_admin'): ?>
                         <a href="<?php echo e(route('admins.index')); ?>" class="btn btn-sm btn-success btn-icon d-flex align-items-center mb-0 ms-md-auto mb-sm-0 mb-2 me-2">

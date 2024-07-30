@@ -29,8 +29,16 @@
             <input type="email" class="form-control" id="email" name="email" value="<?php echo e($admin->email); ?>" required>
         </div>
         <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <select class="form-select" id="role" name="role" required>
+                <option value="admin" <?php echo e($admin->role == 'admin' ? 'selected' : ''); ?>>Admin</option>
+                <option value="content_writer" <?php echo e($admin->role == 'content_writer' ? 'selected' : ''); ?>>Content Writer</option>
+            </select>
+        </div>
+        <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" name="password">
+            <small class="form-text text-muted">Kosongkan field ini jika tidak merubah password</small>
         </div>
         <div class="mb-3">
             <label for="password_confirmation" class="form-label">Confirm Password</label>
@@ -40,5 +48,4 @@
     </form>
 </div>
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\buahtangan\resources\views/admins/edit.blade.php ENDPATH**/ ?>
