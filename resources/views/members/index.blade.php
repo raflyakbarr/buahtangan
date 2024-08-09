@@ -30,7 +30,9 @@
                                 <th>QR Code</th>
                                 <th>Tambah Points</th>
                                 <th>Aksi</th>
-                                <th>Reset Point</th>
+                                @if(Auth::user()->role === 'super_admin')
+                                    <th>Reset Point</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -62,15 +64,17 @@
                                             <button type="submit" class="btn btn-danger btn-delete" data-name="{{ $member->name }}"><i class="bi bi-trash3"></i></button>
                                         </form>
                                     </td>
-                                    <td>
-                                        <form action="{{ route('members.resetPoints', ['member' => $member->member_number]) }}" method="POST">
-                                            @csrf
-                                            @method('POST')
-                                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                                <button type="submit" class="btn btn-danger btn-reset" data-name="{{ $member->name }}">Reset Point</button>
-                                            </div>
-                                        </form>
-                                    </td>
+                                    @if(Auth::user()->role === 'super_admin')
+                                        <td>
+                                            <form action="{{ route('members.resetPoints', ['member' => $member->member_number]) }}" method="POST">
+                                                @csrf
+                                                @method('POST')
+                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                    <button type="submit" class="btn btn-danger btn-reset" data-name="{{ $member->name }}">Reset Point</button>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>

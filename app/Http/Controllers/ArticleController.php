@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Str;
 use Mews\Purifier\Facades\Purifier;
+use Illuminate\Database\QueryException;
 
 class ArticleController extends Controller
 {
@@ -28,16 +29,20 @@ class ArticleController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'content' => 'required', // You can adjust this validation as needed
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi untuk gambar
+            'kategori_artikel' => 'required',
+            'content' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
+    
+        $slug = Str::slug($request->title);
+    
         $article = new Article();
         $article->title = $request->title;
         $article->content = $request->content;
-        $article->slug = Str::slug($request->title);
+        $article->kategori_artikel = $request->kategori_artikel;
+        $article->slug = $slug;
         $article->user_id = auth()->user()->id;
-
+    
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time().'.'.$image->getClientOriginalExtension();
@@ -45,11 +50,20 @@ class ArticleController extends Controller
             $image->move($destinationPath, $imageName);
             $article->image = 'images/'.$imageName;
         }
-
-        $article->save();
-
-        return redirect()->route('articles.index')
-            ->with('success', 'Article created successfully.');
+    
+        try {
+            $article->save();
+            Alert::success('Success', 'Article created successfully.');
+            return redirect()->route('articles.index');
+        } catch (QueryException $e) {
+            // Handle duplicate slug error
+            if ($e->getCode() == '23000' && strpos($e->getMessage(), 'articles_slug_unique') !== false) {
+                Alert::error('Error', 'Artikel dengan judul ini sudah ada, gunakan judul lainnya.')->persistent('Close');
+                return redirect()->back()->withInput();
+            }
+            Alert::error('Error', 'Something went wrong.')->persistent('Close');
+            return redirect()->back()->withInput();
+        }
     }
 
     public function show($id)
@@ -69,32 +83,52 @@ class ArticleController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'kategori_artikel' => 'required',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
+    
         $article = Article::find($id);
+    
+        // Generate slug from title
+        $slug = Str::slug($request->title);
+    
+        // Check for duplicate slug in articles other than the current article
+        $existingArticle = Article::where('slug', $slug)->where('id', '!=', $id)->first();
+    
+        if ($existingArticle) {
+            // Handle duplicate slug error
+            Alert::error('Error', 'Artikel dengan judul ini sudah ada, gunakan judul artikel lain.')->persistent('Close');
+            return redirect()->back()->withInput(); // Return to form with input data
+        }
+    
         $article->title = $request->title;
         $article->content = $request->content;
-        $article->slug = Str::slug($request->title);
-
+        $article->kategori_artikel = $request->kategori_artikel;
+        $article->slug = $slug;
+    
         if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
+            // Delete old image if exists
             if ($article->image && file_exists(public_path($article->image))) {
                 unlink(public_path($article->image));
             }
-
-            // Upload gambar baru
+    
+            // Upload new image
             $image = $request->file('image');
             $imageName = time().'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path('/images');
             $image->move($destinationPath, $imageName);
             $article->image = 'images/'.$imageName;
         }
-
-        $article->save();
-
-        return redirect()->route('articles.index')->with('success', 'Article updated successfully');
+    
+        try {
+            $article->save();
+            Alert::success('Success', 'Article updated successfully.');
+            return redirect()->route('articles.index');
+        } catch (QueryException $e) {
+            Alert::error('Update Failed', 'Something went wrong.')->persistent('Close');
+            return redirect()->back()->withInput();
+        }
     }
 
     public function destroy($id)

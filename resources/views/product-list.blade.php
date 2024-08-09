@@ -17,8 +17,8 @@
                         <ul class="list-group list-group-flush rounded">
                             @foreach ($categories as $category)
                                 <li class="list-group-item list-group-item-light {{ request('category') == $category ? 'active' : '' }}">
-                                    <a href="{{ route('product.list', ['category' => $category]) }}" class="text-decoration-none {{ request('category') == $category ? 'text-white' : '' }}">
-                                        {{ $category }}
+                                    <a href="{{ route('product.list', ['category' => $category->slug]) }}">
+                                        {{ $category->name }}
                                     </a>
                                 </li>
                             @endforeach
@@ -44,7 +44,7 @@
                     @endif
                     @if($isCategoryView)
                         <div class="mb-3 d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Kategori : {{ $selectedCategory }}</h5>
+                            <h5 class="mb-0">Kategori : {{ $selectedCategory->name }}</h5>
                             <a href="{{ route('product.list') }}" class="text-dark btn-secondary ms-3 mb-3 bi bi-chevron-double-left">Kembali</a>
                         </div>
                     @endif
@@ -54,17 +54,21 @@
                             Tidak ada produk yang ditemukan.
                         </div>
                     @else
-                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-4">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
                             @foreach ($products as $product)
                                 <div class="col">
                                     <div class="card h-100 shadow">
-                                        @if($product->image)
-                                            <img src="{{ asset($product->image) }}" class="card-img-top" alt="{{ $product->name }}">
-                                        @endif
-                                        <div class="card-body">
+                                        <img src="{{ asset($product->images[0]) }}" class="card-img-top" alt="{{ $product->name }}">
+                                        <div class="card-body d-flex flex-column">
                                             <h5 class="card-title">{{ $product->name }}</h5>
                                             <p class="card-text">{{ $product->description }}</p>
                                             <p class="card-text">Harga: Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+                                            <div class="mt-auto text-center">
+                                                <a href="{{ route('product.detail', $product->slug) }}" class="btn">Detail Produk</a>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <a href="{{ $product->product_url }}" class="btn btn-dark px-5">Beli</a>
                                         </div>
                                     </div>
                                 </div>

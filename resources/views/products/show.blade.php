@@ -23,12 +23,14 @@
                     <div class="row">
                         <a class="card-link">
                             <div class="card h-100 shadow">
-                                <img class="img-fluid"src="{{ asset($product->image) }}" alt="{{ $product->name }}">
+                                @foreach($product->images as $image)
+                                    <img src="{{ asset($image) }}" alt="Product Image">
+                                @endforeach
                                 <div class="card-body">
                                     <h5 class="card-title text-center">{{ $product->name }}</h5>
                                     <p class="card-text">Deskripsi Produk: {{ $product->description }}</p>
                                     <p class="card-text">Harga: {{ $product->price }}</p>
-                                    <p class="card-text">Kategori: {{ $product->kategori }}</p>
+                                    <p class="card-text">Kategori: {{ $product->category->name }}</p>
                                 </div>
                             </div>
                         </a>
