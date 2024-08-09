@@ -47,8 +47,8 @@
 								<td>{{ $product->name }}</td>
 								<td>{{ $product->description }}</td>
 								<td>{{ $product->price }}</td>
-								<td>{{ $product->kategori }}</td>
-								<td><img src="{{ asset($product->image) }}" alt="{{ $product->name }}" width="100"></td>
+								<td>{{ optional($product->category)->name }}</td>
+								<td><img src="{{ asset($product->images[0]) }}" alt="{{ $product->name }}" width="100"></td>
 								<td>
 									<form action="{{ route('products.destroy', $product->id) }}" method="POST">
 										<a class="btn btn-dark" href="{{ route('products.show', $product->id) }}"><i class="bi bi-eye"></i></a>

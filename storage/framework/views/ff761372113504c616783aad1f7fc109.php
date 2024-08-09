@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <title><?php echo $__env->yieldContent('title', 'Buah Tangan'); ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <?php echo app('Illuminate\Foundation\Vite')('resources/sass/app.scss'); ?>
@@ -10,9 +11,11 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <?php if(auth()->guard()->check()): ?>
     <nav class="navbar navbar-main navbar-expand-md shadow-none" id="navbarBlur" style="background-color: #0e2238;" navbar-scroll="true">
         <div class="container-fluid py-1 px-2">
@@ -107,6 +110,9 @@
                             <a href="<?php echo e(route('products.create')); ?>" class="sidebar-link">Tambah Produk</a>
                         </li>
                         <li class="sidebar-item">
+                            <a href="<?php echo e(route('categories.index')); ?>" class="sidebar-link">Tambah Kategori Produk</a>
+                        </li>
+                        <li class="sidebar-item">
                             <a href="<?php echo e(route('product.list')); ?>" class="sidebar-link">Halaman List Produk</a>
                         </li>
                     </ul>
@@ -145,6 +151,18 @@
                         </li>
                         <li class="sidebar-item">
                             <a href="<?php echo e(route('article-list')); ?>" class="sidebar-link">Halaman Artikel</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="<?php echo e(route('edithome.index')); ?>" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                        data-bs-target="#edithome" aria-expanded="false" aria-controls="edithome">
+                        <i class="bi bi-house-gear-fill"></i>
+                        <span>Edit Halaman Home</span>
+                    </a>
+                    <ul id="edithome" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="<?php echo e(route('edithome.index')); ?>" class="sidebar-link">Edit Halaman Home</a>
                         </li>
                     </ul>
                 </li>

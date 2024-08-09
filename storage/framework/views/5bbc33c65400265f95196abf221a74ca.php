@@ -30,7 +30,9 @@
                                 <th>QR Code</th>
                                 <th>Tambah Points</th>
                                 <th>Aksi</th>
-                                <th>Reset Point</th>
+                                <?php if(Auth::user()->role === 'super_admin'): ?>
+                                    <th>Reset Point</th>
+                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,15 +64,17 @@
                                             <button type="submit" class="btn btn-danger btn-delete" data-name="<?php echo e($member->name); ?>"><i class="bi bi-trash3"></i></button>
                                         </form>
                                     </td>
-                                    <td>
-                                        <form action="<?php echo e(route('members.resetPoints', ['member' => $member->member_number])); ?>" method="POST">
-                                            <?php echo csrf_field(); ?>
-                                            <?php echo method_field('POST'); ?>
-                                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                                <button type="submit" class="btn btn-danger btn-reset" data-name="<?php echo e($member->name); ?>">Reset Point</button>
-                                            </div>
-                                        </form>
-                                    </td>
+                                    <?php if(Auth::user()->role === 'super_admin'): ?>
+                                        <td>
+                                            <form action="<?php echo e(route('members.resetPoints', ['member' => $member->member_number])); ?>" method="POST">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('POST'); ?>
+                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                    <button type="submit" class="btn btn-danger btn-reset" data-name="<?php echo e($member->name); ?>">Reset Point</button>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>

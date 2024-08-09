@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->longText('content');
             $table->string('image')->nullable();
-            $table->unsignedBigInteger('user_id'); // Kolom untuk menyimpan ID user sebagai penulis
+            $table->unsignedBigInteger('user_id');
+            $table->string('kategori_artikel');// Kolom untuk menyimpan ID user sebagai penulis
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

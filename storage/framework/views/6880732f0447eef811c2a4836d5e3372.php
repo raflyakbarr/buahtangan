@@ -47,8 +47,8 @@
 								<td><?php echo e($product->name); ?></td>
 								<td><?php echo e($product->description); ?></td>
 								<td><?php echo e($product->price); ?></td>
-								<td><?php echo e($product->kategori); ?></td>
-								<td><img src="<?php echo e(asset($product->image)); ?>" alt="<?php echo e($product->name); ?>" width="100"></td>
+								<td><?php echo e(optional($product->category)->name); ?></td>
+								<td><img src="<?php echo e(asset($product->images[0])); ?>" alt="<?php echo e($product->name); ?>" width="100"></td>
 								<td>
 									<form action="<?php echo e(route('products.destroy', $product->id)); ?>" method="POST">
 										<a class="btn btn-dark" href="<?php echo e(route('products.show', $product->id)); ?>"><i class="bi bi-eye"></i></a>

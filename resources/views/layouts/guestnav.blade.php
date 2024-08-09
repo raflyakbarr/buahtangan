@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gugu Gaga Page</title>
+    <title>@yield('title', 'Buah Tangan')</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @vite('resources/sass/app.scss')
     <link rel="stylesheet" href="{{ asset('css/swiper.bundle.min.css') }}">
@@ -42,7 +42,7 @@
             <!-- Collapsible wrapper -->
         </div>
     </nav> --}}
-    <nav class="navbar navbar-expand-lg shadow" style="background-color: #FFCC03; border-bottom: 15px solid #055E2E; padding:22px;" >
+    <nav class="navbar navbar-expand-lg shadow" style="background-color: #FFCC03; border-bottom: 15px solid #055E2E; padding:22px; z-index:100;" >
         <div class="container position-relative" >
             <div class="logo-container" style="
             position: absolute;
@@ -61,6 +61,9 @@
                     margin-left: auto;
                     margin-right: auto;
                     ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('article-list')}}">Artikel</a>
                     </li>

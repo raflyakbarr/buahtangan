@@ -17,8 +17,8 @@
                         <ul class="list-group list-group-flush rounded">
                             <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <li class="list-group-item list-group-item-light <?php echo e(request('category') == $category ? 'active' : ''); ?>">
-                                    <a href="<?php echo e(route('product.list', ['category' => $category])); ?>" class="text-decoration-none <?php echo e(request('category') == $category ? 'text-white' : ''); ?>">
-                                        <?php echo e($category); ?>
+                                    <a href="<?php echo e(route('product.list', ['category' => $category->slug])); ?>">
+                                        <?php echo e($category->name); ?>
 
                                     </a>
                                 </li>
@@ -45,7 +45,7 @@
                     <?php endif; ?>
                     <?php if($isCategoryView): ?>
                         <div class="mb-3 d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Kategori : <?php echo e($selectedCategory); ?></h5>
+                            <h5 class="mb-0">Kategori : <?php echo e($selectedCategory->name); ?></h5>
                             <a href="<?php echo e(route('product.list')); ?>" class="text-dark btn-secondary ms-3 mb-3 bi bi-chevron-double-left">Kembali</a>
                         </div>
                     <?php endif; ?>
@@ -55,17 +55,21 @@
                             Tidak ada produk yang ditemukan.
                         </div>
                     <?php else: ?>
-                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-4">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
                             <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="col">
                                     <div class="card h-100 shadow">
-                                        <?php if($product->image): ?>
-                                            <img src="<?php echo e(asset($product->image)); ?>" class="card-img-top" alt="<?php echo e($product->name); ?>">
-                                        <?php endif; ?>
-                                        <div class="card-body">
+                                        <img src="<?php echo e(asset($product->images[0])); ?>" class="card-img-top" alt="<?php echo e($product->name); ?>">
+                                        <div class="card-body d-flex flex-column">
                                             <h5 class="card-title"><?php echo e($product->name); ?></h5>
                                             <p class="card-text"><?php echo e($product->description); ?></p>
                                             <p class="card-text">Harga: Rp <?php echo e(number_format($product->price, 0, ',', '.')); ?></p>
+                                            <div class="mt-auto text-center">
+                                                <a href="<?php echo e(route('product.detail', $product->slug)); ?>" class="btn">Detail Produk</a>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <a href="<?php echo e($product->product_url); ?>" class="btn btn-dark px-5">Beli</a>
                                         </div>
                                     </div>
                                 </div>

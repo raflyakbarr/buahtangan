@@ -24,12 +24,14 @@
                     <div class="row">
                         <a class="card-link">
                             <div class="card h-100 shadow">
-                                <img class="img-fluid"src="<?php echo e(asset($product->image)); ?>" alt="<?php echo e($product->name); ?>">
+                                <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <img src="<?php echo e(asset($image)); ?>" alt="Product Image">
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <div class="card-body">
                                     <h5 class="card-title text-center"><?php echo e($product->name); ?></h5>
                                     <p class="card-text">Deskripsi Produk: <?php echo e($product->description); ?></p>
                                     <p class="card-text">Harga: <?php echo e($product->price); ?></p>
-                                    <p class="card-text">Kategori: <?php echo e($product->kategori); ?></p>
+                                    <p class="card-text">Kategori: <?php echo e($product->category->name); ?></p>
                                 </div>
                             </div>
                         </a>
