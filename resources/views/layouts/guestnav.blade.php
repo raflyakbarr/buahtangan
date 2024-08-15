@@ -81,82 +81,89 @@
     <div class="main">
         @yield('content')
     </div>
-    <!-- Footer -->
-    <footer class="text-center shadow"  style="background-color: #FFCC03; border-top: 15px solid #055E2E;" >
-        <!-- Grid container -->
-        <div class="container p-4">
-          <!--Grid row-->
-          <div class="row">
-            <!--Grid column-->
-            <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-                <img src="https://s3-id-jkt-1.kilatstorage.id/cdn-buahtanganid/2024/07/Buah-Tangan-Logo-Compress.png" alt="">
-              <p>
-                Alamat: Jl. Ir. Soekarno No.374, Mojorejo, Kec. Junrejo, Kota Batu, Jawa Timur
-              </p>
-            </div>
-            <!--Grid column-->
+<!-- Footer -->
+<footer class=""  style="background-color: #FFCC03; border-top: 15px solid #055E2E; " >
+  <!-- Grid container -->
+  <div class="container p-4 mt-5" style="margin:0; height:100%; max-width:100%; color:#055E2E;">
+    <!--Grid row-->
+    <div class="row">
+      <!--Grid column-->
+      <div class="col d-flex justify-content-center pb-3" ><a href="/">
+          <img src="https://s3-id-jkt-1.kilatstorage.id/cdn-buahtanganid/2024/07/Buah-Tangan-Logo-Compress.png" alt="Logo" class="img-fluid" style="width:100%; height: 200px;">
+        </a>
+      </div>
+      <!--Grid column-->
 
-            <!--Grid column-->
-            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-              <h5 class="text-uppercase">Contact Us</h5>
+      <!--Grid column-->
+      <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+        <ul class="list-unstyled mb-0">
+          <li>
+            <h5 class="text-uppercase">About</h5>
+          </li>
+          <li>
+            <a href="{{route('product.list')}}" class="text-body"  style="color: #055E2E !important;">Our Product</a>
+          </li>
+          <li>
+              <a href="{{route('article-list')}}" class="text-body"  style="color: #055E2E !important;">Artikel</a>
+          </li>
+          <li>
+              <a href="{{route('faq')}}" class="text-body"  style="color: #055E2E !important;">FAQ</a>
+          </li>
+        </ul>
+      </div>
+      <!--Grid column-->
 
-              <ul class="list-unstyled mb-0">
-                <li>
-                  <a href="#!" class="text-body">Customer Care</a>
-                </li>
-                <li>
-                    <i class="bi bi-whatsapp"></i>
-                    <a href="#!" class="text-body">Whatsapp</a>
-                </li>
-                <li>
-                    <i class="bi bi-instagram"></i>
-                  <a href="#!" class="text-body">Instagram</a>
-                </li>
-                <li>
-                    <i class="bi bi-envelope"></i>
-                  <a href="#!" class="text-body">Email</a>
-                </li>
-              </ul>
-            </div>
-            <!--Grid column-->
-
-            <!--Grid column-->
-            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-              <h5 class="text-uppercase mb-0">About Us</h5>
-              <ul class="list-unstyled">
-                <li>
-                  <a href="#!" class="text-body">FAQ</a>
-                </li>
-                <li>
-                  <a href="#!" class="text-body">Brosur</a>
-                </li>
-                <li>
-                  <a href="#!" class="text-body">Artikel</a>
-                </li>
-                <li>
-                  <a href="#" class="text-body">Return Policy</a>
-                </li>
-                <li>
-                  <a href="#" class="text-body">Deliver Policy</a>
-                </li>
-                <li>
-                  <a href="/login" class="text-body">Admin</a>
-                </li>
-              </ul>
-            </div>
-            <!--Grid column-->
-          </div>
-          <!--Grid row-->
+      <!--Grid column-->
+      <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+        <ul class="list-unstyled">
+          <li>
+            <h5 class="text-uppercase mb-0">Social Media</h5>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/buahtangangrup/"  style="color: #055E2E !important;">Instagram</a>
+          </li>
+          <li>
+            <a href="https://www.tiktok.com/@buahtangangrup_"  style="color: #055E2E !important;">Tiktok</a>
+          </li>
+          <li>
+            <a href="#!"  style="color: #055E2E !important;">Youtube</a>
+          </li>
+          <li>
+            <a href="/login"  style="color: #055E2E !important;">Admin</a>
+          </li>
+        </ul>
+      </div>
+      <!--Grid column-->
+    </div>
+    <!--Grid row-->
+  </div>
+  <!-- Grid container -->
+  <div class="container-lg">
+    <div class="row ">
+        <div class="col d-flex justify-content-start ps-4 pe-5  ">
+            <i class="bi bi-geo-alt h3 pe-3 ps-5 pt-2 me-3"  style="color: #055E2E !important;" ></i>
+            <span class="h6 pt-2"  style="color: #055E2E !important;">Alamat: Jl. Ir. Soekarno No.374, Mojorejo, Kec. Junrejo, Kota Batu, Jawa Timur </span>
         </div>
-        <!-- Grid container -->
-
-        <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-          © 2024 Copyright
-          <a class="text-body" href="#">PT. Buah Tangan Group</a>
+        <div class="col d-flex justify-content-start ps-5 pe-5 ">
+            <i class="bi bi-telephone h3 ps-5 pe-3 "  style="color: #055E2E !important;"></i>
+            <span class="h6  pt-2"  style="color: #055E2E !important;">0821 - 3249 - 2659</span>
+            </i>
         </div>
-        <!-- Copyright -->
-      </footer>
+        <div class="col d-flex justify-content-start ps-5 pe-1 ">
+            <i class="bi bi-envelope h3 pe-3 ps-5"  style="color: #055E2E !important;">
+            <span class="h6 ps-2 pe-1 "  style="color: #055E2E !important;">Buahtangan@email.com</span>
+            </i>
+        </div>
+    </div>
+</div>
+
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2024 Copyright
+    <a class="text-body" href="#">PT. Buah Tangan Group</a>
+  </div>
+  <!-- Copyright -->
+</footer>
     <script src="{{ asset('js/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('js/swiper.js') }}"></script>
     @vite('resources/js/app.js')

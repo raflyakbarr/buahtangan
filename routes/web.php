@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Models\Article;
+use App\Http\Controllers\KategoriArtikelController;
 
 
 Auth::routes();
@@ -47,6 +48,7 @@ Route::middleware(['auth', 'role:content_writer'])->group(function () {
         Route::put('/edithome/{id}', [HomeController::class, 'update'])->name('edithome.update');
         Route::post('/edithome/add-image', [HomeController::class, 'addImage'])->name('edithome.addImage');
         Route::delete('/edithome/delete/{id}', [HomeController::class, 'deleteImage'])->name('edithome.deleteImage');
+        Route::resource('kategori_artikel', KategoriArtikelController::class);
     });
 });
 Route::middleware(['track.public'])->group(function () {
@@ -58,6 +60,7 @@ Route::middleware(['track.public'])->group(function () {
     Route::get('/product-list', [ProductController::class, 'indexForGuests'])->name('product.list');
     Route::get('/product-list/search', [ProductController::class, 'search'])->name('product-list.search');
     Route::get('/product-list/{slug}', [ProductController::class, 'indexForGuests'])->name('product.detail');
+    Route::get('/article/category/{slug}', [ArticleController::class, 'showCategory'])->name('category.articles');
     Route::get('/faq', function () {
         return view('faq');
     })->name('faq');

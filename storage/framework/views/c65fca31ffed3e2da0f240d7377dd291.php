@@ -1,10 +1,4 @@
 
-<style>
-.list-group-item a {
-    color: inherit;
-    text-decoration: none;
-}
-</style>
 <?php $__env->startSection('content'); ?>
     <!-- Page content-->
     <div class="container mt-5">
@@ -17,7 +11,7 @@
                         <ul class="list-group list-group-flush rounded">
                             <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <li class="list-group-item list-group-item-light <?php echo e(request('category') == $category ? 'active' : ''); ?>">
-                                    <a href="<?php echo e(route('product.list', ['category' => $category->slug])); ?>">
+                                    <a href="<?php echo e(route('product.list', ['category' => $category->slug])); ?>" class="text-dark text-decoration-none">
                                         <?php echo e($category->name); ?>
 
                                     </a>
@@ -58,20 +52,24 @@
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
                             <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="col">
+                                    <a href="<?php echo e(route('product.detail', $product->slug)); ?>">
                                     <div class="card h-100 shadow">
-                                        <img src="<?php echo e(asset($product->images[0])); ?>" class="card-img-top" alt="<?php echo e($product->name); ?>">
+                                        <?php
+                                            // Decode the images JSON string into an array
+                                            $images = is_string($product->images) ? json_decode($product->images, true) : $product->images;
+                                        ?>
+                                        <?php if(is_array($images) && !empty($images)): ?>
+                                            <img src="<?php echo e(asset($images[0])); ?>" class="card-img-top" alt="<?php echo e($product->name); ?>">
+                                        <?php endif; ?>
                                         <div class="card-body d-flex flex-column">
                                             <h5 class="card-title"><?php echo e($product->name); ?></h5>
-                                            <p class="card-text"><?php echo e($product->description); ?></p>
-                                            <p class="card-text">Harga: Rp <?php echo e(number_format($product->price, 0, ',', '.')); ?></p>
-                                            <div class="mt-auto text-center">
-                                                <a href="<?php echo e(route('product.detail', $product->slug)); ?>" class="btn">Detail Produk</a>
-                                            </div>
+                                            
+                                            <p class="card-text"><strong>Rp <?php echo e(number_format($product->price, 0, ',', '.')); ?></strong></p>
+                                            
                                         </div>
-                                        <div class="card-footer text-center">
-                                            <a href="<?php echo e($product->product_url); ?>" class="btn btn-dark px-5">Beli</a>
-                                        </div>
+                                        
                                     </div>
+                                    </a>
                                 </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>

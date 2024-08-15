@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\KategoriArtikel;
 use Illuminate\Http\Request;
 
 class ArticleListController extends Controller
@@ -11,10 +12,12 @@ class ArticleListController extends Controller
     {
         $articles = Article::all();
         $latestArticles = Article::latest()->take(5)->get();
-        return view('article-list', compact('articles', 'latestArticles'));
+        $categories = KategoriArtikel::all();
+        return view('article-list', compact('articles', 'latestArticles', 'categories'));
     }
     public function search(Request $request)
     {
+        $categories = KategoriArtikel::all();
         $search = $request->input('search');
         $query = Article::query();
 
@@ -24,6 +27,6 @@ class ArticleListController extends Controller
         }
 
         $articles = $query->paginate(10);
-        return view('article-list', compact('articles', 'search'));
+        return view('article-list', compact('articles', 'search', 'categories'));
     }
 }

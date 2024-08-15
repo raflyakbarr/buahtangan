@@ -106,6 +106,21 @@
                         @endif
                     </div>
                 </div>
+                <!-- Categories widget -->
+                <div class="card mb-4 border-0">
+                    <div class="card-header">Kategori Artikel</div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            @foreach ($categories as $category)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="{{ route('category.articles', $category->slug) }}" class="text-decoration-none text-dark">
+                                        {{ $category->name }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

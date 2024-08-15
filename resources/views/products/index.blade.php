@@ -45,10 +45,22 @@
 							<tr class="text-center">
 								<td>{{ $loop->iteration }}</td>
 								<td>{{ $product->name }}</td>
-								<td>{{ $product->description }}</td>
+								<td>{{ Str::limit(html_entity_decode(strip_tags($product->description)), 50) }}</td>
 								<td>{{ $product->price }}</td>
 								<td>{{ optional($product->category)->name }}</td>
-								<td><img src="{{ asset($product->images[0]) }}" alt="{{ $product->name }}" width="100"></td>
+								@php
+                                    // Decode the images JSON string into an array
+                                    $images = is_string($product->images) ? json_decode($product->images, true) : $product->images;
+                                @endphp
+
+                                <td>
+                                    @if (is_array($images) && !empty($images))
+                                        <img src="{{ asset($images[0]) }}" alt="{{ $product->name }}" width="100">
+                                    @else
+                                        <span>No image available</span>
+                                    @endif
+                                </td>
+
 								<td>
 									<form action="{{ route('products.destroy', $product->id) }}" method="POST">
 										<a class="btn btn-dark" href="{{ route('products.show', $product->id) }}"><i class="bi bi-eye"></i></a>

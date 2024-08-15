@@ -108,10 +108,14 @@
 
                             <div class="col-xs-12 col-sm-12 col-md-12 mt-3">
                                 <div id="image-preview" class="row">
-                                    <?php if($product->images): ?>
-                                        <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php
+                                        // Decode the images JSON string into an array
+                                        $images = is_string($product->images) ? json_decode($product->images, true) : $product->images;
+                                    ?>
+                                    <?php if(is_array($images) && !empty($images)): ?>
+                                        <?php $__currentLoopData = $images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <div class="col-md-3">
-                                                <img src="/<?php echo e($image); ?>" alt="<?php echo e($product->name); ?>" class="img-thumbnail mb-2" width="150">
+                                                <img src="<?php echo e(asset($image)); ?>" alt="<?php echo e($product->name); ?>" class="img-thumbnail mb-2" width="150">
                                             </div>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php endif; ?>

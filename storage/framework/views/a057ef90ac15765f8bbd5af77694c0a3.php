@@ -108,6 +108,22 @@
                         <?php endif; ?>
                     </div>
                 </div>
+                <!-- Categories widget -->
+                <div class="card mb-4 border-0">
+                    <div class="card-header">Kategori Artikel</div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="<?php echo e(route('category.articles', $category->slug)); ?>" class="text-decoration-none text-dark">
+                                        <?php echo e($category->name); ?>
+
+                                    </a>
+                                </li>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
