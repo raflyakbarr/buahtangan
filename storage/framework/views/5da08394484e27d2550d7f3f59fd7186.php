@@ -1,0 +1,1 @@
+<?php /**PATH D:\laragon\www\buahtangan\resources\views\about-us.blade.php ENDPATH**/ ?>

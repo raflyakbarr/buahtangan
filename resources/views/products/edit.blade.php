@@ -107,10 +107,14 @@
 
                             <div class="col-xs-12 col-sm-12 col-md-12 mt-3">
                                 <div id="image-preview" class="row">
-                                    @if($product->images)
-                                        @foreach($product->images as $image)
+                                    @php
+                                        // Decode the images JSON string into an array
+                                        $images = is_string($product->images) ? json_decode($product->images, true) : $product->images;
+                                    @endphp
+                                    @if (is_array($images) && !empty($images))
+                                        @foreach($images as $image)
                                             <div class="col-md-3">
-                                                <img src="/{{ $image }}" alt="{{ $product->name }}" class="img-thumbnail mb-2" width="150">
+                                                <img src="{{ asset($image) }}" alt="{{ $product->name }}" class="img-thumbnail mb-2" width="150">
                                             </div>
                                         @endforeach
                                     @endif

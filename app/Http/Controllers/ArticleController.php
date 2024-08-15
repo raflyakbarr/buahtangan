@@ -10,6 +10,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Str;
 use Mews\Purifier\Facades\Purifier;
 use Illuminate\Database\QueryException;
+use App\Models\KategoriArtikel;
 
 class ArticleController extends Controller
 {
@@ -23,13 +24,14 @@ class ArticleController extends Controller
 
     public function create()
     {
-        return view('articles.create');
+        $categories = KategoriArtikel::orderBy('name')->get();
+        return view('articles.create', compact('categories'));
     }
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required',
-            'kategori_artikel' => 'required',
+            'kategori_artikel_id' => 'required',
             'content' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -39,7 +41,7 @@ class ArticleController extends Controller
         $article = new Article();
         $article->title = $request->title;
         $article->content = $request->content;
-        $article->kategori_artikel = $request->kategori_artikel;
+        $article->kategori_artikel_id = $request->kategori_artikel_id;
         $article->slug = $slug;
         $article->user_id = auth()->user()->id;
     
@@ -83,7 +85,7 @@ class ArticleController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'kategori_artikel' => 'required',
+            'kategori_artikel_id' => 'required',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -104,7 +106,7 @@ class ArticleController extends Controller
     
         $article->title = $request->title;
         $article->content = $request->content;
-        $article->kategori_artikel = $request->kategori_artikel;
+        $article->kategori_artikel_id = $request->kategori_artikel_id;
         $article->slug = $slug;
     
         if ($request->hasFile('image')) {
@@ -142,13 +144,22 @@ class ArticleController extends Controller
 
     public function indexForGuests($slug)
     {
+        
         $article = Article::where('slug', $slug)->first();
         if (!$article) {
             abort(404); // Artikel tidak ditemukan, tampilkan halaman 404
         }
-
+        $categories = KategoriArtikel::all();
         $relatedArticles = Article::where('id', '!=', $article->id)->latest()->take(5)->get();
 
-        return view('article', compact('article', 'relatedArticles'));
+        return view('article', compact('article', 'relatedArticles', 'categories'));
+    }
+    public function showCategory($slug)
+    {
+        $category = KategoriArtikel::where('slug', $slug)->firstOrFail();
+        $articles = Article::where('kategori_artikel_id', $category->id)->get();
+        $categories = KategoriArtikel::all(); // Get all categories for the sidebar
+
+        return view('category.articles', compact('category', 'articles', 'categories'));
     }
 }

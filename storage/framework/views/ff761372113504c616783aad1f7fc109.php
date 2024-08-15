@@ -150,6 +150,9 @@
                             <a href="<?php echo e(route('articles.index')); ?>" class="sidebar-link">Daftar Artikel</a>
                         </li>
                         <li class="sidebar-item">
+                            <a href="<?php echo e(route('kategori_artikel.index')); ?>" class="sidebar-link">Tambah Kategori Artikel</a>
+                        </li>
+                        <li class="sidebar-item">
                             <a href="<?php echo e(route('article-list')); ?>" class="sidebar-link">Halaman Artikel</a>
                         </li>
                     </ul>

@@ -85,12 +85,12 @@ footer {
                             <input type="file" name="image" id="imageInput" class="form-control" required>
                         </div>
                         <div class="form-group mt-3">
-                            <label for="kategori_artikel">Kategori Artikel</label>
-                            <select class="form-control" id="kategori_artikel" name="kategori_artikel">
+                            <label for="kategori_artikel_id">Kategori Artikel</label>
+                            <select name="kategori_artikel_id" class="form-control">
                                 <option value="">Pilih Kategori</option>
-                                <option value="produk">Produk</option>
-                                <option value="berita">Berita</option>
-                                <option value="event">Event</option>
+                                <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($category->id); ?>"><?php echo e($category->name); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                         </div>
                         

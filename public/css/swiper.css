@@ -190,3 +190,7 @@ body {
 .main{
     flex: 1;
 }
+
+.green-text {
+  color: green;
+}

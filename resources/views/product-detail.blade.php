@@ -3,7 +3,7 @@
 @section('content')
 <style>
     .product-image-container {
-    text-align: center;
+        text-align: center;
     }
 
     .thumbnail-container {
@@ -38,12 +38,18 @@
         <div class="col-md-6 mb-4">
             <div class="product-image-container">
                 <!-- Gambar utama -->
-                <img id="mainImage" src="{{ asset($product->images[0]) }}" alt="{{ $product->name }}" class="img-fluid main-image">
+                @php
+                    // Decode the images JSON string into an array
+                    $images = is_string($product->images) ? json_decode($product->images, true) : $product->images;
+                @endphp
+                @if (is_array($images) && !empty($images))
+                    <img id="mainImage" src="{{ asset($images[0]) }}" alt="{{ $product->name }}" class="img-fluid main-image">
+                @endif
             </div>
 
             <!-- Thumbnail Gambar -->
             <div class="product-thumbnails d-flex mt-3">
-                @foreach($product->images as $index => $image)
+                @foreach($images as $index => $image)
                     <div class="thumbnail-container me-2">
                         <img src="{{ asset($image) }}" alt="Thumbnail {{ $index + 1 }}" class="img-thumbnail thumbnail-image" onclick="changeMainImage('{{ asset($image) }}')">
                     </div>
@@ -64,7 +70,7 @@
             <div class="product-meta">
                 <p><strong>Kategori:</strong> {{ $product->kategori }}</p>
             </div>
-            <a class="btn btn-dark" href="{{$product->product_url}}">Beli Sekarang</a>
+            <a class="btn btn-dark" href="{{ $product->product_url }}">Beli Sekarang</a>
         </div>
     </div>
 </div>

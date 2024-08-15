@@ -66,8 +66,8 @@
       transform: rotate(-90deg);
     }
 </style>
-    <header class="bg-dark py-5">
-        <div class="container px-4 px-lg-5 my-5">
+    <header class="py-5" style="background-color: #055E2E;">
+        <div class="container px-4 px-lg-5">
             <div class="text-center text-white">
                 <h1 class="display-4 fw-bolder">Semua Artikel</h1>
                 <p class="lead fw-normal text-white-50 mb-3">Baca artikel yang anda suka</p>
@@ -80,6 +80,13 @@
             </div>
         </div>
     </header>
+    <nav class="nav justify-content-center" style="background-color: #FFCC03;">
+        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <a href="<?php echo e(route('category.articles', $category->slug)); ?>" class="nav-item nav-link" style="color: #055E2E; text-decoration: none;">
+                <strong><?php echo e($category->name); ?></strong>
+            </a>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </nav>2
     <div class="container px-4 px-lg-5">
         <?php if(!request('search')): ?>
         <div class="row gx-4 gx-lg-5 align-items-center my-5">

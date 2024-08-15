@@ -3,7 +3,7 @@
 <?php $__env->startSection('content'); ?>
 <style>
     .product-image-container {
-    text-align: center;
+        text-align: center;
     }
 
     .thumbnail-container {
@@ -38,12 +38,18 @@
         <div class="col-md-6 mb-4">
             <div class="product-image-container">
                 <!-- Gambar utama -->
-                <img id="mainImage" src="<?php echo e(asset($product->images[0])); ?>" alt="<?php echo e($product->name); ?>" class="img-fluid main-image">
+                <?php
+                    // Decode the images JSON string into an array
+                    $images = is_string($product->images) ? json_decode($product->images, true) : $product->images;
+                ?>
+                <?php if(is_array($images) && !empty($images)): ?>
+                    <img id="mainImage" src="<?php echo e(asset($images[0])); ?>" alt="<?php echo e($product->name); ?>" class="img-fluid main-image">
+                <?php endif; ?>
             </div>
 
             <!-- Thumbnail Gambar -->
             <div class="product-thumbnails d-flex mt-3">
-                <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $__currentLoopData = $images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="thumbnail-container me-2">
                         <img src="<?php echo e(asset($image)); ?>" alt="Thumbnail <?php echo e($index + 1); ?>" class="img-thumbnail thumbnail-image" onclick="changeMainImage('<?php echo e(asset($image)); ?>')">
                     </div>

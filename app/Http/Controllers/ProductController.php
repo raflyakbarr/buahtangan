@@ -12,8 +12,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProductsExport;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\QueryException;
-
-
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -41,13 +40,15 @@ class ProductController extends Controller
         ]);
     
         $input = $request->all();
-        
+    
         if ($request->hasFile('images')) {
             $destinationPath = 'images/';
             $imagePaths = [];
     
             foreach ($request->file('images') as $image) {
-                $imageName = date('YmdHis') . "." . $image->getClientOriginalExtension();
+                // Generate a random string of 10 characters
+                $randomString = Str::random(10);
+                $imageName = $randomString . "." . $image->getClientOriginalExtension();
                 $image->move(public_path($destinationPath), $imageName);
                 $imagePaths[] = "$destinationPath$imageName";
             }
@@ -96,16 +97,23 @@ class ProductController extends Controller
     
             // Hapus gambar lama jika ada
             if ($product->images) {
-                foreach (json_decode($product->images) as $image) {
-                    if (file_exists(public_path($image))) {
-                        unlink(public_path($image));
+                // Decode images only if it's a JSON string
+                $oldImages = is_string($product->images) ? json_decode($product->images, true) : $product->images;
+                
+                if (is_array($oldImages)) {
+                    foreach ($oldImages as $image) {
+                        if (file_exists(public_path($image))) {
+                            unlink(public_path($image));
+                        }
                     }
                 }
             }
     
             // Upload gambar baru
             foreach ($files as $file) {
-                $gambarProduk = date('YmdHis') . "_" . uniqid() . "." . $file->getClientOriginalExtension();
+                // Generate a random string of 10 characters
+                $randomString = Str::random(10);
+                $gambarProduk = $randomString . "_" . uniqid() . "." . $file->getClientOriginalExtension();
                 $file->move(public_path($destinationPath), $gambarProduk);
                 $newImages[] = "$destinationPath$gambarProduk";
             }

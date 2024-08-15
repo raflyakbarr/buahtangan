@@ -45,10 +45,22 @@
 							<tr class="text-center">
 								<td><?php echo e($loop->iteration); ?></td>
 								<td><?php echo e($product->name); ?></td>
-								<td><?php echo e($product->description); ?></td>
+								<td><?php echo e(Str::limit(html_entity_decode(strip_tags($product->description)), 50)); ?></td>
 								<td><?php echo e($product->price); ?></td>
 								<td><?php echo e(optional($product->category)->name); ?></td>
-								<td><img src="<?php echo e(asset($product->images[0])); ?>" alt="<?php echo e($product->name); ?>" width="100"></td>
+								<?php
+                                    // Decode the images JSON string into an array
+                                    $images = is_string($product->images) ? json_decode($product->images, true) : $product->images;
+                                ?>
+
+                                <td>
+                                    <?php if(is_array($images) && !empty($images)): ?>
+                                        <img src="<?php echo e(asset($images[0])); ?>" alt="<?php echo e($product->name); ?>" width="100">
+                                    <?php else: ?>
+                                        <span>No image available</span>
+                                    <?php endif; ?>
+                                </td>
+
 								<td>
 									<form action="<?php echo e(route('products.destroy', $product->id)); ?>" method="POST">
 										<a class="btn btn-dark" href="<?php echo e(route('products.show', $product->id)); ?>"><i class="bi bi-eye"></i></a>
