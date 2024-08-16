@@ -44,7 +44,6 @@ Route::middleware(['auth', 'role:content_writer'])->group(function () {
         Route::get('edithome', [HomeController::class, 'editHome'])->name('edithome.index');
         Route::post('edithome', [HomeController::class, 'store'])->name('edithome.store');
         Route::delete('/edithome/{id}', [HomeController::class, 'destroy'])->name('edithome.destroy');
-        Route::get('/edithome/{id}/edit', [HomeController::class, 'edit'])->name('edithome.edit');
         Route::put('/edithome/{id}', [HomeController::class, 'update'])->name('edithome.update');
         Route::post('/edithome/add-image', [HomeController::class, 'addImage'])->name('edithome.addImage');
         Route::delete('/edithome/delete/{id}', [HomeController::class, 'deleteImage'])->name('edithome.deleteImage');
@@ -54,12 +53,12 @@ Route::middleware(['auth', 'role:content_writer'])->group(function () {
 Route::middleware(['track.public'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('welcome');
     Route::get('/member-list/{member_number}', [MemberController::class, 'indexForGuests'])->name('member.list');
-    Route::get('/article-list', [ArticleListController::class, 'index'])->name('article-list');
-    Route::get('/article-list/search', [ArticleListController::class, 'search'])->name('article-list.search');
+    Route::get('/article', [ArticleListController::class, 'index'])->name('article-list');
+    Route::get('/article/search', [ArticleListController::class, 'search'])->name('article-list.search');
     Route::get('/article/{slug}', [ArticleController::class, 'indexForGuests'])->name('article');
-    Route::get('/product-list', [ProductController::class, 'indexForGuests'])->name('product.list');
-    Route::get('/product-list/search', [ProductController::class, 'search'])->name('product-list.search');
-    Route::get('/product-list/{slug}', [ProductController::class, 'indexForGuests'])->name('product.detail');
+    Route::get('/product', [ProductController::class, 'indexForGuests'])->name('product.list');
+    Route::get('/product/search', [ProductController::class, 'search'])->name('product-list.search');
+    Route::get('/product/{slug}', [ProductController::class, 'indexForGuests'])->name('product.detail');
     Route::get('/article/category/{slug}', [ArticleController::class, 'showCategory'])->name('category.articles');
     Route::get('/faq', function () {
         return view('faq');

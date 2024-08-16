@@ -24,6 +24,7 @@
                         <tr>
                             <th>Title</th>
                             <th>Author</th>
+                            <th>Kategori Artikel</th>
                             <th>Halaman Artikel</th>
                             <th>Actions</th>
                         </tr>
@@ -33,6 +34,7 @@
                             <tr>
                                 <td><?php echo e($article->title); ?></td>
                                 <td><?php echo e($article->user->name); ?></td>
+                                <td><?php echo e($article->kategori_artikel_id); ?></td>
                                 <td><a href="<?php echo e(route('article', ['slug' => $article->slug])); ?>" class="btn btn-dark">Pergi ke halaman</a></td>
                                 <td>
                                     <a href="<?php echo e(route('articles.edit', $article->id)); ?>" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>

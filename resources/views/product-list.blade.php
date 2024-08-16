@@ -9,6 +9,9 @@
                     <div class="card-header">Kategori Produk</div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush rounded">
+                            <li class="list-group-item list-group-item-light">
+                                <a href="{{route('product.list')}}" class="text-dark text-decoration-none">Semua Produk</a>
+                            </li>
                             @foreach ($categories as $category)
                                 <li class="list-group-item list-group-item-light {{ request('category') == $category ? 'active' : '' }}">
                                     <a href="{{ route('product.list', ['category' => $category->slug]) }}" class="text-dark text-decoration-none">

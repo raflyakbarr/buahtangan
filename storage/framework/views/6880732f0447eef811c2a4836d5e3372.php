@@ -9,35 +9,36 @@
                         <h3 class="font-weight-bold mb-0">
                             List Produk
                         </h3>
-                        <div class="d-flex align-items-center mb-0 ms-md-auto mb-sm-0 mb-2 me-2">
+                        <div class="d-flex align-items-center gap-2 mb-0 ms-md-auto mb-sm-0 mb-2 me-2">
                             <button onclick="refreshPage()" class="btn btn-dark bi bi-arrow-clockwise"> Refresh</button>
+                            <a href="<?php echo e(route('products.exportExcel')); ?>" class="btn btn-outline-success">
+                                <i class="bi bi-download me-1"></i> Export Excel
+                            </a>
+                            <a class="btn btn-success" href="<?php echo e(route('products.create')); ?>">Buat Produk Baru</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <hr class="my-3">
-            <div class="row">
-                <div class="container">
+            <hr class="my-3" >
+            <div class="card shadow-lg border-0">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-lg-10">
                             <div class="pull-right">
-                                <a class="btn btn-success" href="<?php echo e(route('products.create')); ?>"> Create New Product</a>
-                                <a href="<?php echo e(route('products.exportExcel')); ?>" class="btn btn-outline-success">
-                                    <i class="bi bi-download me-1"></i> to Excel
-                                </a>
+
                             </div>
                         </div>
                     </div>
-					<table id="productsTable" class="table table-bordered" datatable>
-						<thead>
+					<table id="productsTable" class="table table-striped table-hover table-bordered" datatable>
+						<thead class="table-dark">
 							<tr class="text-center">
 								<th>No</th>
-								<th>Name</th>
-								<th>Description</th>
-								<th>Price</th>
+								<th>Nama</th>
+								<th>Deskripsi</th>
+								<th style="width: 150px;">Harga</th>
 								<th>Kategori</th>
-								<th>Image</th>
-								<th width="280px">Action</th>
+								<th>Gambar</th>
+								<th width="280px">Aksi</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -46,7 +47,7 @@
 								<td><?php echo e($loop->iteration); ?></td>
 								<td><?php echo e($product->name); ?></td>
 								<td><?php echo e(Str::limit(html_entity_decode(strip_tags($product->description)), 50)); ?></td>
-								<td><?php echo e($product->price); ?></td>
+								<td>Rp <?php echo e(number_format($product->price, 0, ',', '.')); ?></td>
 								<td><?php echo e(optional($product->category)->name); ?></td>
 								<?php
                                     // Decode the images JSON string into an array
@@ -81,7 +82,14 @@
     <?php $__env->startPush('scripts'); ?>
         <script type="module">
             $(document).ready(function() {
-                $('#productsTable').DataTable();
+                $('#productsTable').DataTable({
+                    responsive: true,
+                    language: {
+                        search: "_INPUT_",
+                        searchPlaceholder: "Cari produk...",
+                        lengthMenu: "Tampilkan _MENU_ data",
+                    },
+                });
 
                 $('.btn-delete').on('click', function(e) {
                     e.preventDefault();

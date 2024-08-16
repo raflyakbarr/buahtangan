@@ -77,8 +77,9 @@ class ArticleController extends Controller
 
     public function edit($id)
     {
+        $categories = KategoriArtikel::orderBy('name')->get();
         $article = Article::findOrFail($id);
-        return view('articles.edit', compact('article'));
+        return view('articles.edit', compact('article', 'categories'));
     }
 
     public function update(Request $request, $id)

@@ -14,10 +14,10 @@ class SuperAdminSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Rafly Akbar Rafsanjani',
-            'email' => 'arafly12@yahoo.com',
+            'name' => 'Buah Tangan',
+            'email' => 'buahtangan@gmail.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('123123123'),
+            'password' => Hash::make('admin123'),
             'role' => 'super_admin',
         ]);
     }

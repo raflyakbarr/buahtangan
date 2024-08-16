@@ -9,23 +9,23 @@
                     <h3 class="font-weight-bold mb-0">
                         List Member
                     </h3>
-                    <div class="d-flex align-items-center mb-0 ms-md-auto mb-sm-0 mb-2 me-2">
+                    <div class="d-flex align-items-center gap-2 mb-0 ms-md-auto mb-sm-0 mb-2 me-2">
                         <button onclick="refreshPage()" class="btn btn-dark bi bi-arrow-clockwise"> Refresh</button>
+                        <a class="btn btn-success" href="{{route('members.create')}}">Buat Member</a>
                     </div>
                 </div>
             </div>
         </div>
-        <hr class="my-0 my-3">
-        <div class="row">
-            <div class="col-md-12">
-                <a href="{{ route('members.create') }}" class="btn btn-success mb-1">Add Member</a>
+        <hr class="my-3">
+        <div class="card shadow-lg border-0">
+            <div class="card-body">
                 <div class="table-responsive text-center">
-                    <table class="table table-bordered" id="membersTable" datatable>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
+                    <table class="table table-striped table-hover table-bordered" id="membersTable" datatable>
+                        <thead class="table-dark">
+                            <tr class="text-center">
+                                <th>Nama</th>
                                 <th>Telp</th>
-                                <th>Member Number</th>
+                                <th>Nomor Member</th>
                                 <th>Points</th>
                                 <th>QR Code</th>
                                 <th>Tambah Points</th>
@@ -87,7 +87,14 @@
 @push('scripts')
 <script type="module">
     $(document).ready(function() {
-        $('#membersTable').DataTable();
+        $('#membersTable').DataTable({
+            responsive: true,
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Cari member...",
+                lengthMenu: "Tampilkan _MENU_ data",
+            },
+        });
 
         $('.btn-delete').on('click', function(e) {
             e.preventDefault();
