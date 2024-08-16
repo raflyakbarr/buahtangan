@@ -9,6 +9,9 @@
                     <div class="card-header">Kategori Produk</div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush rounded">
+                            <li class="list-group-item list-group-item-light">
+                                <a href="<?php echo e(route('product.list')); ?>" class="text-dark text-decoration-none">Semua Produk</a>
+                            </li>
                             <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <li class="list-group-item list-group-item-light <?php echo e(request('category') == $category ? 'active' : ''); ?>">
                                     <a href="<?php echo e(route('product.list', ['category' => $category->slug])); ?>" class="text-dark text-decoration-none">

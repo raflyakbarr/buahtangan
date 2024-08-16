@@ -2,9 +2,9 @@
     <thead>
         <tr>
             <th>No</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
+            <th>Nama</th>
+            <th>Deskripsi</th>
+            <th>Harga</th>
             <th>Kategori</th>
         </tr>
     </thead>

@@ -67,9 +67,6 @@
             <div class="product-variants mb-3">
                 <!-- Tambahkan varian produk jika ada -->
             </div>
-            <div class="product-meta">
-                <p><strong>Kategori:</strong> <?php echo e($product->kategori); ?></p>
-            </div>
             <a class="btn btn-dark" href="<?php echo e($product->product_url); ?>">Beli Sekarang</a>
         </div>
     </div>

@@ -86,12 +86,14 @@ footer {
                             <input type="file" name="image" id="imageInput" class="form-control" value="{{ asset($article->image) }}">
                         </div>
                         <div class="form-group mt-3">
-                            <label for="kategori_artikel">Kategori Artikel</label>
-                            <select class="form-control" id="kategori_artikel" name="kategori_artikel">
+                            <label for="kategori_artikel_id">Kategori Artikel</label>
+                            <select name="kategori_artikel_id" class="form-control">
                                 <option value="">Pilih Kategori</option>
-                                <option value="product" {{ old('kategori_artikel', $article->kategori_artikel) == 'product' ? 'selected' : '' }}>Product</option>
-                                <option value="berita" {{ old('kategori_artikel', $article->kategori_artikel) == 'berita' ? 'selected' : '' }}>Berita</option>
-                                <option value="event" {{ old('kategori_artikel', $article->kategori_artikel) == 'event' ? 'selected' : '' }}>Event</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ (old('category_id', $article->kategori_artikel_id) == $category->id) ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                         <!-- Post content-->

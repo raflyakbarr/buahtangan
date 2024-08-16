@@ -68,7 +68,7 @@
 </style>
     <header class="py-5" style="background-color: #055E2E;">
         <div class="container px-4 px-lg-5">
-            <div class="text-center text-white">
+            <div class="text-center text-light">
                 <h1 class="display-4 fw-bolder">Semua Artikel</h1>
                 <p class="lead fw-normal text-white-50 mb-3">Baca artikel yang anda suka</p>
                 <form action="{{ route('article-list.search') }}" method="GET">
@@ -78,15 +78,18 @@
                     </div>
                 </form>
             </div>
+            <nav class="nav justify-content-center">
+                @foreach ($categories as $category)
+                    <a href="{{ route('category.articles', $category->slug) }}" class="nav-item nav-link"
+                       style="color: #fcc510; text-decoration: none; font-size: 20px;"
+                       onmouseover="this.style.color='#fff';"
+                       onmouseout="this.style.color='#fcc510'; this.style.textDecoration='none';">
+                        <strong>{{ $category->name }}</strong>
+                    </a>
+                @endforeach
+            </nav>
         </div>
     </header>
-    <nav class="nav justify-content-center" style="background-color: #FFCC03;">
-        @foreach ($categories as $category)
-            <a href="{{ route('category.articles', $category->slug) }}" class="nav-item nav-link" style="color: #055E2E; text-decoration: none;">
-                <strong>{{ $category->name }}</strong>
-            </a>
-        @endforeach
-    </nav>2
     <div class="container px-4 px-lg-5">
         @if (!request('search'))
         <div class="row gx-4 gx-lg-5 align-items-center my-5">

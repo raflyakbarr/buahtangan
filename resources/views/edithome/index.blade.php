@@ -437,12 +437,15 @@ body {
                                     </button>
                                 </form>
                                 <button type="button" class="btn btn-primary btn-delete" data-bs-toggle="modal" data-bs-target="#editModal"
-                                    data-bs-id="{{ $card->id }}"
-                                    data-bs-name="{{ $card->name }}"
-                                    data-bs-description="{{ $card->description }}"
-                                    data-bs-image="{{ asset($card->image) }}">
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
+                                data-bs-id="{{ $card->id }}"
+                                data-bs-name="{{ $card->name }}"
+                                data-bs-price="{{ $card->price }}"
+                                data-bs-button_text="{{ $card->button_text }}"
+                                data-bs-button_link="{{ $card->button_link }}"
+                                data-bs-description="{{ $card->description }}"
+                                data-bs-image="{{ asset($card->image) }}">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>                            
                             </div>
                         </div>
                         @endforeach
@@ -462,39 +465,61 @@ body {
         <button class="btn btn-dark mt-4" data-bs-toggle="modal" data-bs-target="#addCardModal">Tambah Card</button>
     </section>
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Edit Card</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form id="editForm" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-body">
-                        <input type="hidden" id="edit_id" name="id">
-                        <div class="mb-3">
-                            <label for="edit_name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="edit_name" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit_description" class="form-label">Description</label>
-                            <textarea class="form-control" id="edit_description" name="description" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit_image" class="form-label">Image</label>
-                            <input type="file" class="form-control" id="edit_image" name="image">
-                        </div>
-                        <img id="edit_preview" src="" alt="Current Image" style="max-width: 200px; display: none;">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="editModalLabel">Edit Card</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              @if(isset($card))
+              <form id="editForm" action="{{ route('edithome.update', $card->id) }}" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  @method('PUT')
+                  <div class="modal-body">
+                      <input type="hidden" id="edit_id" name="id" value="{{ $card->id }}">
+                      <div class="mb-3">
+                          <label for="edit_name" class="form-label">Judul/Nama</label>
+                          <input type="text" class="form-control" id="edit_name" name="name" value="{{ $card->name }}" required>
+                      </div>
+                      <div class="mb-3">
+                          <label for="edit_price" class="form-label">Harga</label>
+                          <input type="text" class="form-control" id="edit_price" name="price" value="{{ $card->price }}" required>
+                      </div>
+                      <div class="mb-3">
+                          <label for="edit_button_text" class="form-label">Teks Tombol</label>
+                          <input type="text" class="form-control" id="edit_button_text" name="button_text" value="{{ $card->button_text }}" required>
+                      </div>
+                      <div class="mb-3">
+                          <label for="edit_button_link" class="form-label">Teks Link</label>
+                          <input type="text" class="form-control" id="edit_button_link" name="button_link" value="{{ $card->button_link }}" required>
+                      </div>
+                      <div class="mb-3">
+                          <label for="edit_description" class="form-label">Deskripsi</label>
+                          <textarea class="form-control" id="edit_description" name="description" required>{{ $card->description }}</textarea>
+                      </div>
+                      <div class="mb-3">
+                          <label for="edit_image" class="form-label">Gambar</label>
+                          <input type="file" class="form-control" id="edit_image" name="image">
+                      </div>
+                      <img id="edit_preview" src="" alt="Current Image" style="max-width: 200px; display: {{ $card->image ? 'block' : 'none' }};">
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                      <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                  </div>
+              </form>
+              @else
+              <div class="modal-body">
+                  <p>No card available.</p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+              </div>
+              @endif
+          </div>
+      </div>
+  </div>
+  
  <div class="modal fade" id="addCardModal" tabindex="-1" aria-labelledby="addCardModalLabel" aria-hidden="true" >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -506,30 +531,34 @@ body {
           <form action="{{ route('edithome.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="mb-3">
-                  <label for="image" class="form-label">Image</label>
+                  <label for="image" class="form-label">Gambar</label>
                   <input type="file" class="form-control" name="image" required>
               </div>
               <div class="mb-3">
-                  <label for="name" class="form-label">Name</label>
+                  <label for="name" class="form-label">Judul/Nama</label>
                   <input type="text" class="form-control" name="name" required>
               </div>
               <div class="mb-3">
-                  <label for="price" class="form-label">Price</label>
+                  <label for="price" class="form-label">Harga</label>
                   <input type="number" class="form-control" name="price" required>
               </div>
               <div class="mb-3">
-                  <label for="description" class="form-label">Description</label>
+                  <label for="description" class="form-label">Deskripsi</label>
                   <textarea class="form-control" name="description" required></textarea>
               </div>
               <div class="mb-3">
-                  <label for="button_text" class="form-label">Button Text</label>
+                  <label for="button_text" class="form-label">Teks Tombol</label>
+                  <p class="text-muted fst-italic">Contoh: Beli Sekarang</p>
                   <input type="text" class="form-control" name="button_text">
               </div>
               <div class="mb-3">
-                  <label for="button_link" class="form-label">Button Link</label>
+                  <label for="button_link" class="form-label">Teks Link</label>
+                  <p class="text-muted fst-italic">Contoh: https://shopee.co.id/Keripik-Pisang-Coklat-Buah-Tangan-i.1089950066.23957724149</p>
                   <input type="text" class="form-control" name="button_link">
               </div>
-              <button type="submit" class="btn btn-primary">Tambah Card</button>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Tambah Card</button>
+              </div>
           </form>
         </div>
       </div>
@@ -658,18 +687,21 @@ body {
         const editModal = document.getElementById('editModal');
         if (editModal) {
             editModal.addEventListener('show.bs.modal', event => {
-                // Button that triggered the modal
                 const button = event.relatedTarget;
-                // Extract info from data-bs-* attributes
                 const id = button.getAttribute('data-bs-id');
                 const name = button.getAttribute('data-bs-name');
+                const price = button.getAttribute('data-bs-price');
+                const buttonText = button.getAttribute('data-bs-button_text');
+                const buttonLink = button.getAttribute('data-bs-button_link');
                 const description = button.getAttribute('data-bs-description');
                 const image = button.getAttribute('data-bs-image');
                 
-                // Update the modal's content.
                 const modalTitle = editModal.querySelector('.modal-title');
                 const modalBodyInputId = editModal.querySelector('#edit_id');
                 const modalBodyInputName = editModal.querySelector('#edit_name');
+                const modalBodyInputPrice = editModal.querySelector('#edit_price');
+                const modalBodyInputButtonText = editModal.querySelector('#edit_button_text');
+                const modalBodyInputButtonLink = editModal.querySelector('#edit_button_link');
                 const modalBodyInputDescription = editModal.querySelector('#edit_description');
                 const modalBodyInputImage = editModal.querySelector('#edit_image');
                 const modalImagePreview = editModal.querySelector('#edit_preview');
@@ -677,15 +709,31 @@ body {
                 modalTitle.textContent = `Edit Card`;
                 modalBodyInputId.value = id;
                 modalBodyInputName.value = name;
+                modalBodyInputPrice.value = price;
+                modalBodyInputButtonText.value = buttonText; // Menambahkan Button Text
+                modalBodyInputButtonLink.value = buttonLink; // Menambahkan Button Link
                 modalBodyInputDescription.value = description;
 
-                // Set the current image preview if available
                 if (image) {
                     modalImagePreview.src = image;
                     modalImagePreview.style.display = 'block';
                 } else {
                     modalImagePreview.style.display = 'none';
                 }
+                        // Event listener for image input change
+                modalBodyInputImage.addEventListener('change', function() {
+                    const file = this.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            modalImagePreview.src = e.target.result;
+                            modalImagePreview.style.display = 'block';
+                        }
+                        reader.readAsDataURL(file);
+                    } else {
+                        modalImagePreview.style.display = 'none';
+                    }
+                });
             });
         }
         const deleteHeroButtons = document.querySelectorAll('.btn-delete-hero');

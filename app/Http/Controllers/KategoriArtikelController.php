@@ -57,6 +57,12 @@ class KategoriArtikelController extends Controller
     public function destroy($id)
     {
         $category = KategoriArtikel::findOrFail($id);
+
+        // Check if category has articles
+        if ($category->articles()->exists()) {
+            return redirect()->route('kategori_artikel.index')->with('error', 'Kategori tidak dapat dihapus karena masih memiliki artikel.');
+        }
+
         $category->delete();
 
         return redirect()->route('kategori_artikel.index')->with('success', 'Kategori artikel berhasil dihapus.');

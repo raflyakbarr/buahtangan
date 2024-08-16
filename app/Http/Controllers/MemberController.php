@@ -28,52 +28,68 @@ class MemberController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'telp' => [
-                'unique:members',
-            ],
-        ]);
-
-        $member = new Member();
-        $member->name = $request->name;
-        $member->telp = $request->telp;
-        $member->member_number = random_int(100000, 999999);
-        $member->points = $request->points;
-        $member->user_id = Auth::id();
-
-        $member->save();
-
-        $link = url('/member-list/' . $member->member_number);
-        $qrCode = QrCode::size(300)
-                    ->style('dot')
-                    ->eye('circle')
-                    ->margin(1)
-                    ->color(1, 94, 0) 
-                    ->generate($link);
-        
-        $qrCodeDir = public_path('qrcodes');
-        if (!File::isDirectory($qrCodeDir)) {
-            File::makeDirectory($qrCodeDir, 0755, true, true);
-        }
-
-        $qrCodePath = 'qrcodes/' . time() . '.svg';
-        $fullPath = public_path($qrCodePath);
-        file_put_contents($fullPath, $qrCode);
-
-        $member->qr_code = $qrCodePath;
-        $member->save();
-
-        if ($request->points > 0) {
-            RiwayatPoint::create([
-                'member_number' => $member->member_number,
-                'user_id' => Auth::id(),
-                'points' => $request->points,
+        try {
+            // Validasi input
+            $request->validate([
+                'name' => 'required',
+                'telp' => [
+                    'unique:members',
+                ],
             ]);
+    
+            // Membuat objek Member baru
+            $member = new Member();
+            $member->name = $request->name;
+            $member->telp = $request->telp;
+            $member->member_number = random_int(100000, 999999);
+            $member->points = $request->points;
+            $member->user_id = Auth::id();
+    
+            // Menyimpan member
+            $member->save();
+    
+            // Membuat QR code
+            $link = url('/member-list/' . $member->member_number);
+            $qrCode = QrCode::size(300)
+                            ->style('dot')
+                            ->eye('circle')
+                            ->margin(1)
+                            ->color(1, 94, 0) 
+                            ->generate($link);
+            
+            $qrCodeDir = public_path('qrcodes');
+            if (!File::isDirectory($qrCodeDir)) {
+                File::makeDirectory($qrCodeDir, 0755, true, true);
+            }
+    
+            $qrCodePath = 'qrcodes/' . time() . '.svg';
+            $fullPath = public_path($qrCodePath);
+            file_put_contents($fullPath, $qrCode);
+    
+            $member->qr_code = $qrCodePath;
+            $member->save();
+    
+            // Menyimpan riwayat poin jika ada
+            if ($request->points > 0) {
+                RiwayatPoint::create([
+                    'member_number' => $member->member_number,
+                    'user_id' => Auth::id(),
+                    'points' => $request->points,
+                ]);
+            }
+    
+            // Tampilkan pesan sukses
+            Alert::success('Sukses', 'Berhasil menambah member.');
+            return redirect()->route('members.index');
+        } catch (ValidationException $e) {
+            // Tampilkan pesan kesalahan validasi
+            Alert::error('Gagal', 'Nomor telepon sudah digunakan.');
+            return redirect()->back()->withErrors($e->validator)->withInput();
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan umum
+            Alert::error('Gagal', 'Terjadi kesalahan saat menyimpan data.');
+            return redirect()->back()->withInput();
         }
-
-        Alert::success('Added Successfully', 'Member Added Successfully.');
-        return redirect()->route('members.index');
     }
 
     public function show($member_number)
@@ -94,21 +110,35 @@ class MemberController extends Controller
 
     public function update(Request $request, $member_number)
     {
-        $request->validate([
-            'name' => 'required',
-            'telp' => [
-                'required',
-            ],
-        ]);
-
-        $member = Member::where('member_number', $member_number)->firstOrFail();
-        $member->name = $request->name;
-        $member->telp = $request->telp;
-
-        // Simpan perubahan
-        $member->save();
-        Alert::success('Added Successfully', 'Member Berhasil Di Edit.');
-        return redirect()->route('members.index');
+        try {
+            // Validasi input
+            $request->validate([
+                'name' => 'required',
+                'telp' => [
+                    'required',
+                ],
+            ]);
+    
+            // Mengambil member berdasarkan nomor member
+            $member = Member::where('member_number', $member_number)->firstOrFail();
+            $member->name = $request->name;
+            $member->telp = $request->telp;
+    
+            // Simpan perubahan
+            $member->save();
+    
+            // Tampilkan pesan sukses
+            Alert::success('Sukses', 'Member Berhasil Di Edit.');
+            return redirect()->route('members.index');
+        } catch (ValidationException $e) {
+            // Tampilkan pesan kesalahan validasi
+            Alert::error('Gagal', 'Validasi gagal. Silakan periksa input Anda.');
+            return redirect()->back()->withErrors($e->validator)->withInput();
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan umum
+            Alert::error('Gagal', 'Terjadi kesalahan saat mengupdate data.');
+            return redirect()->back()->withInput();
+        }
     }
 
     public function destroy($member_number)

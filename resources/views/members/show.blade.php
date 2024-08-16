@@ -9,9 +9,9 @@
                     <button type="button" class="btn btn-dark bi bi-arrow-left">Kembali</button>
                 </a>
                 <div class="d-flex align-items-center mb-0 ms-md-auto mb-sm-0 mb-2 me-2">
-                    <h3 class="font-weight-bold mb-0">
+                    <h2 class="font-weight-bold mb-0">
                         Member, {{ $member->name}}
-                    </h3>
+                    </h2>
                 </div>
             </div>
         </div>
@@ -19,19 +19,25 @@
     <hr class="my-3">
     <div class="row">
         <div class="col-md-6">
-            <div class="card mb-3">
+            <div class="card mb-3 border-0 shadow">
+                <div class="card-header bg-white">
+                    <h3 class="card-title text-center">Detail Member</h3>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Detail Member</h5>
-                    <img src="{{ asset($member->qr_code) }}" class="card-img-top w-50 mb-3" alt="QR Code">
+                    <div class="text-center">
+                        <img src="{{ asset($member->qr_code) }}" class="card-img-top w-50 mb-3 img-fluid" alt="QR Code">
+                    </div>
                     <p class="card-text"><strong>Nama Member: </strong>{{ $member->name}}</p>
                     <p class="card-text"><strong>No. Telepon Member: </strong>{{ $member->telp }}</p>
                     <p class="card-text"><strong>No. Member: </strong>{{ $member->member_number }}</p>
                     <p class="card-text"><strong>Member Points: </strong>{{ $member->points }}</p>
                 </div>
             </div>
-            <div class="card">
+            <div class="card border-0 shadow">
+                <div class="card-header bg-white">
+                    <h3 class="card-title text-center">Tukar Points</h3>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Tukar Points</h5>
                     <form id="tukarPoinForm" action="{{ route('members.tukarPoin', $member->member_number) }}" method="POST">
                         @csrf
                         <div class="form-group mb-3">
@@ -46,9 +52,11 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
+            <div class="card border-0 shadow">
+                <div class="card-header bg-white">
+                    <h3 class="card-title text-center">Riwayat Points</h3>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Riwayat Poin</h5>
                     @if(session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}

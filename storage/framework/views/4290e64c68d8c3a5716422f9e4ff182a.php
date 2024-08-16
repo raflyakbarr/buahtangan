@@ -2,7 +2,7 @@
 
 <?php $__env->startSection('content'); ?>
 <div class="container p-5">
-    <h1 class="mb-4">Kelola Kategori</h1>
+    <h1 class="mb-4">Kelola Kategori Produk</h1>
 
     <?php if(session('success')): ?>
         <div class="alert alert-success">

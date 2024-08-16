@@ -67,9 +67,6 @@
             <div class="product-variants mb-3">
                 <!-- Tambahkan varian produk jika ada -->
             </div>
-            <div class="product-meta">
-                <p><strong>Kategori:</strong> {{ $product->kategori }}</p>
-            </div>
             <a class="btn btn-dark" href="{{ $product->product_url }}">Beli Sekarang</a>
         </div>
     </div>
