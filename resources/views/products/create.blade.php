@@ -32,7 +32,7 @@
                                 <label for="price" class="form-label">Harga</label>
                                 <div class="input-group">
                                     <span class="input-group-text">Rp</span>
-                                    <input type="text" id="price" name="price" class="form-control" placeholder="0.00" required>
+                                    <input type="number" id="price" name="price" class="form-control" placeholder="0.00" required>
                                 </div>
                             </div>
 
@@ -169,25 +169,6 @@
             });
         }
     }
-    document.addEventListener('DOMContentLoaded', function() {
-    const priceInput = document.getElementById('price');
-
-    priceInput.addEventListener('input', function(e) {
-        // Menghilangkan karakter non-digit
-        let value = this.value.replace(/[^,\d]/g, '');
-        
-        // Memisahkan angka sebelum dan sesudah koma
-        const parts = value.split(',');
-        let wholePart = parts[0];
-        const fractionalPart = parts[1] !== undefined ? ',' + parts[1] : '';
-
-        // Memasukkan titik ribuan
-        wholePart = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-
-        // Menyusun kembali nilai input
-        this.value = wholePart + fractionalPart;
-    });
-});
 </script>
 @endpush
 

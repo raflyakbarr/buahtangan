@@ -5,23 +5,23 @@
     <div class="container p-5">
         <div class="row">
             <div class="col-md-12">
-                <div class="d-md-flex align-items-center mx-2">
+                <div class="d-md-flex align-items-center mb-3 mx-2">
                     <h3 class="font-weight-bold mb-0">
                         List Artikel
                     </h3>
-                    <div class="d-flex align-items-center mb-0 ms-md-auto mb-sm-0 mb-2 me-2">
+                    <div class="d-flex align-items-center gap-2 mb-0 ms-md-auto mb-sm-0 mb-2 me-2">
                         <button onclick="refreshPage()" class="btn btn-dark bi bi-arrow-clockwise"> Refresh</button>
+                        <a class="btn btn-success" href="{{ route('articles.create') }}">Buat Artikel</a>
                     </div>
                 </div>
             </div>
         </div>
-        <hr class="my-3">
-        <div class="row">
-            <div class="col-md-12">
-                <a href="{{ route('articles.create') }}" class="btn btn-success mb-2">Buat Artikel</a>
-                <table class="table table-bordered text-center" id="articlesTable">
-                    <thead>
-                        <tr>
+        <hr class="my-3" >
+        <div class="card shadow-lg border-0">
+            <div class="card-body">
+                <table class="table table-striped table-hover table-bordered text-center" id="articlesTable">
+                    <thead class="table-dark">
+                        <tr class="text-center">
                             <th>Title</th>
                             <th>Author</th>
                             <th>Kategori Artikel</th>
@@ -34,7 +34,7 @@
                             <tr>
                                 <td>{{ $article->title }}</td>
                                 <td>{{ $article->user->name }}</td>
-                                <td>{{ $article->kategori_artikel_id}}</td>
+                                <td>{{ $article->kategori->name ?? 'Tidak ada kategori' }}</td>
                                 <td><a href="{{ route('article', ['slug' => $article->slug]) }}" class="btn btn-dark">Pergi ke halaman</a></td>
                                 <td>
                                     <a href="{{ route('articles.edit', $article->id) }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
@@ -54,9 +54,16 @@
     @push('scripts')
     <script type="module">
         $(document).ready(function() {
-            $('#articlesTable').DataTable();
-    
-            $('.btn-delete').on('click', function(e) {
+            $('#articlesTable').DataTable({
+                responsive: true,
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Cari artikel...",
+                    lengthMenu: "Tampilkan _MENU_ data",
+                },
+            });
+        });    
+        $(document).on('click', '.btn-delete', function(e) {
                 e.preventDefault();
                 var form = $(this).closest('form');
                 var title = $(this).closest('tr').find('td:first').text(); 
@@ -75,8 +82,6 @@
                     }
                 });
             });
-        });
-    
         function refreshPage() {
             window.location.reload();
         }

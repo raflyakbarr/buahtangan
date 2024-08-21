@@ -1,6 +1,6 @@
-@extends('layouts.guestnav')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 <style>
     .bg-image-container {
     width: 100%;
@@ -199,7 +199,7 @@
     }
 </style>
 <div class="bg-image-container">
-<img src="{{asset('images/bg-buahtangan.jpeg')}}" alt="">
+<img src="<?php echo e(asset('images/bg-buahtangan.jpeg')); ?>" alt="">
 </div>
 <div class="image"></div>
 <main>
@@ -219,18 +219,18 @@
                         Posisi lokasi yang strategis ini memberikan keuntungan tersendiri sehingga memudahkan pengunjung baik rombongan maupun keluarga yang baru saja keluar dari objek wisata untuk singgah berbelanja oleh-oleh di pusat oleh-oleh buah tangan.</p>
                   </div>
                   <div class="col-md-6">
-                      <img src="{{asset('images/aboutus-5.jpg')}}" class="img-fluid rounded" alt="Who We Are">
+                      <img src="<?php echo e(asset('images/aboutus-5.jpg')); ?>" class="img-fluid rounded" alt="Who We Are">
                   </div>
               </div>
               <div class="row mt-4">
                   <div class="col-md-4">
-                      <img src="{{asset('images/aboutus-1.jpg')}}" class="img-fluid rounded" alt="Strength 1">
+                      <img src="<?php echo e(asset('images/aboutus-1.jpg')); ?>" class="img-fluid rounded" alt="Strength 1">
                   </div>
                   <div class="col-md-4">
-                      <img src="{{asset('images/aboutus-2.jpg')}}" class="img-fluid rounded" alt="Strength 2">
+                      <img src="<?php echo e(asset('images/aboutus-2.jpg')); ?>" class="img-fluid rounded" alt="Strength 2">
                   </div>
                   <div class="col-md-4">
-                      <img src="{{asset('images/aboutus-3.jpg')}}" class="img-fluid rounded" alt="Strength 3">
+                      <img src="<?php echo e(asset('images/aboutus-3.jpg')); ?>" class="img-fluid rounded" alt="Strength 3">
                   </div>
               </div>
           </div>
@@ -240,7 +240,7 @@
               <p style="text-align: justify;">Pusat oleh-oleh buah tangan berkomitmen untuk menjalin kerjasama dengan UMKM yang ada di Kota Batu, Malang maupun Jawa Timur. Oleh karena itu pusat oleh-oleh buah tangan menampung semua produk baik makanan minuman maupun kerajinan yang dibuat oleh UMKM. 
                 Kerjasama yang dibangun adalah konsinyasi atau titip jual dari UMKM untuk dipajang di rak-rak yang ada di pusat oleh-oleh buah tangan.
                  Seiring semakin ramainya kunjungan ke pusat oleh-oleh buah tangan semakin banyak UMKM yang berdatangan bahkan dari luar kota yang ingin menitipkan barangnya untuk dijual di pusat ololeh-oleh buah tangan.</p>
-              <img src="{{asset('images/aboutus-4.jpg')}}" class="img-fluid mt-3 rounded" alt="Our Strength">
+              <img src="<?php echo e(asset('images/aboutus-4.jpg')); ?>" class="img-fluid mt-3 rounded" alt="Our Strength">
           </div>
       </section>
     </div>
@@ -266,4 +266,5 @@
       customWayPoint('.timeline__item--'+i, 'timeline__item-bg', defaultOffset);
     }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.guestnav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\buahtangan\resources\views/about-us.blade.php ENDPATH**/ ?>

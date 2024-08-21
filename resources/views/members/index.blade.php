@@ -96,7 +96,7 @@
             },
         });
 
-        $('.btn-delete').on('click', function(e) {
+        $(document).on('click', '.btn-delete', function(e) {
             e.preventDefault();
             var form = $(this).closest('form');
             var name = $(this).data("name");
@@ -116,7 +116,7 @@
             });
         });
         $(document).ready(function() {
-            $('.btn-add-points').on('click', function() {
+            $(document).on('click', '.btn-add-points', function(e) {
                 var memberNumber = $(this).data('member');
                 var pointsToAdd = $(this).closest('td').find('.point-input').val();
 
@@ -168,8 +168,7 @@
                 }
             });
         });
-        $('#membersTable').DataTable();
-        $('.btn-reset').on('click', function(e) {
+        $(document).on('click', '.btn-reset', function(e) {
             e.preventDefault();
             var form = $(this).closest('form');
             var name = $(this).data("name");
