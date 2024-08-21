@@ -71,7 +71,7 @@
             },
         });
 
-        $('.btn-delete').on('click', function(e) {
+        $(document).on('click', '.btn-delete', function(e) {
             e.preventDefault(); // Stop default form submission
 
             const name = $(this).data('name'); // Get the admin's name

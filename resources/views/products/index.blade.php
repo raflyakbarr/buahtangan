@@ -22,13 +22,6 @@
             <hr class="my-3" >
             <div class="card shadow-lg border-0">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-10">
-                            <div class="pull-right">
-
-                            </div>
-                        </div>
-                    </div>
 					<table id="productsTable" class="table table-striped table-hover table-bordered" datatable>
 						<thead class="table-dark">
 							<tr class="text-center">
@@ -91,7 +84,7 @@
                     },
                 });
 
-                $('.btn-delete').on('click', function(e) {
+                $(document).on('click', '.btn-delete', function(e) {
                     e.preventDefault();
                     var form = $(this).closest('form');
                     var productId = $(this).data('id');

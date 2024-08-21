@@ -63,4 +63,7 @@ Route::middleware(['track.public'])->group(function () {
     Route::get('/faq', function () {
         return view('faq');
     })->name('faq');
+    Route::get('/about-us', function () {
+        return view('about-us');
+    })->name('about-us');
 });

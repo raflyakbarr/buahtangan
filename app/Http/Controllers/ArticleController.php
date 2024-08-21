@@ -18,6 +18,7 @@ class ArticleController extends Controller
     {
         $articles = Article::all();
         $articles = Article::with('user')->latest()->paginate(10);
+        $articles = Article::with('kategori')->get();
         confirmDelete();
         return view('articles.index', compact('articles'));
     }

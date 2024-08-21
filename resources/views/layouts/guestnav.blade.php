@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="{{ asset('css/swiper.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -72,6 +73,9 @@
                         <a class="nav-link" href="{{route('product.list')}}">Produk Buah Tangan</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{route('about-us')}}">About Us</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{route('faq')}}">FAQ</a>
                     </li>
                 </ul>
@@ -97,7 +101,7 @@
 
       <!--Grid column-->
       <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-        <ul class="list-unstyled mb-0">
+        <ul class="list-unstyled">
           <li>
             <h5 class="text-uppercase">About</h5>
           </li>
@@ -128,9 +132,6 @@
           </li>
           <li>
             <a href="#!"  style="color: #055E2E !important;">Youtube</a>
-          </li>
-          <li>
-            <a href="/login"  style="color: #055E2E !important;">Admin</a>
           </li>
         </ul>
       </div>
@@ -165,10 +166,16 @@
   </div>
   <!-- Copyright -->
 </footer>
+<a href="https://wa.me/6282132492659" class="whatsapp-float" target="_blank">
+  <div class="iconnya mt-2">
+    <i class="bi bi-whatsapp"></i>
+  </div>
+</a>
     <script src="{{ asset('js/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('js/swiper.js') }}"></script>
     @vite('resources/js/app.js')
     @stack('scripts')
     @include('sweetalert::alert')
+    
 </body>
 </html>

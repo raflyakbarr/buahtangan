@@ -18,6 +18,6 @@ class Article extends Model
     }
     public function kategori()
     {
-        return $this->belongsTo(KategoriArtikel::class, 'kategori_artikel');
+        return $this->belongsTo(KategoriArtikel::class, 'kategori_artikel_id');
     }
 }

@@ -1,6 +1,15 @@
-/*=============== CARD ===============*/
-
-
+  .whatsapp-float {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25D366;
+    color: #FFF;
+    text-align: center;
+    box-shadow: 3px 3px 5px #999;
+    z-index: 100;
+  }
   .card__container {
     padding-block: 5rem;
   }
